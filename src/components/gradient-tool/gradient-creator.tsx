@@ -6,7 +6,7 @@ import type { PrimaryGradient, OverlayGradient } from '@/lib/types';
 import { useBreakpoint } from '@/hooks/use-breakpoint';
 import { Button } from '@/components/ui/button';
 import { PanelLeftClose, PanelRightClose, Settings, Code, Eye } from 'lucide-react';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import GradientPreview from './gradient-preview';
 import PrimaryGradientDesigner from './primary-gradient-designer';
 import OverlayGradientDesigner from './overlay-gradient-designer';
@@ -60,6 +60,12 @@ export default function GradientCreator() {
                 </Button>
               </DialogTrigger>
               <DialogContent className="p-0 border-0 max-w-7xl">
+                 <DialogHeader className="sr-only">
+                  <DialogTitle>Gradient Full-Screen Preview</DialogTitle>
+                  <DialogDescription>
+                    A full-screen preview of the generated gradient.
+                  </DialogDescription>
+                </DialogHeader>
                 <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal />
               </DialogContent>
             </Dialog>
