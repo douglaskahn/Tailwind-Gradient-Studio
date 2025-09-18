@@ -8,7 +8,6 @@ import { hslToHex, hslToRgb } from '@/lib/utils';
 import type { ColorStop, HSLColor } from '@/lib/types';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import TailwindColorPalette from './tailwind-color-palette';
-import { Button } from '../ui/button';
 import {
   Tooltip,
   TooltipContent,
@@ -70,8 +69,8 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
               </div>
             </div>
         </div>
-        <PopoverContent className="w-80">
-            <TailwindColorPalette onColorSelect={handlePaletteSelect} />
+        <PopoverContent className="w-[480px] p-2">
+            <TailwindColorPalette onColorSelect={handlePaletteSelect} selectedColorName={colorStop.tailwindName} />
         </PopoverContent>
       </Popover>
 

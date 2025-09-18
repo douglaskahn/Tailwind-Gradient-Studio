@@ -1,55 +1,48 @@
 import { tailwindColors } from '@/lib/colors';
 import type { HSLColor } from '@/lib/types';
-import { ScrollArea } from '../ui/scroll-area';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type TailwindColorPaletteProps = {
   onColorSelect: (color: HSLColor, name: string) => void;
+  selectedColorName?: string;
 };
 
-export default function TailwindColorPalette({ onColorSelect }: TailwindColorPaletteProps) {
-  const groupedColors = tailwindColors.reduce((acc, color) => {
-    const groupName = color.name.split('-')[0];
-    if (!acc[groupName]) {
-      acc[groupName] = [];
-    }
-    acc[groupName].push(color);
-    return acc;
-  }, {} as Record<string, typeof tailwindColors>);
-
+export default function TailwindColorPalette({ onColorSelect, selectedColorName }: TailwindColorPaletteProps) {
   return (
-    <ScrollArea className="h-72 w-full">
-      <div className="p-1">
-        <TooltipProvider>
-          {Object.entries(groupedColors).map(([groupName, colors]) => (
-            <div key={groupName} className="mb-4">
-              <h4 className="capitalize text-sm font-medium mb-2 text-muted-foreground">{groupName}</h4>
-              <div className="grid grid-cols-10 gap-1">
-                {colors.map((color) => (
-                  <Tooltip key={color.name} delayDuration={0}>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={() => onColorSelect(color.hsl, color.name)}
-                        className="h-6 w-6 rounded-full border focus:outline-none focus:ring-2 focus:ring-ring"
-                        style={{ backgroundColor: color.hex }}
-                        aria-label={color.name}
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{color.name}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                ))}
-              </div>
-            </div>
+    <div className="p-1">
+      <TooltipProvider delayDuration={0}>
+        <div className="grid grid-cols-[repeat(22,1fr)] gap-1">
+          {tailwindColors.map((color) => (
+            <Tooltip key={color.name} >
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => onColorSelect(color.hsl, color.name)}
+                  className={cn(
+                    "h-6 w-6 rounded-md border focus:outline-none focus:ring-2 focus:ring-ring relative flex items-center justify-center",
+                    selectedColorName === color.name && "ring-2 ring-ring ring-offset-2"
+                  )}
+                  style={{ backgroundColor: color.hex }}
+                  aria-label={color.name}
+                >
+                  {selectedColorName === color.name && (
+                    <Check className="h-4 w-4 text-white" style={{ filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.5))' }}/>
+                  )}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{color.name}</p>
+              </TooltipContent>
+            </Tooltip>
           ))}
-        </TooltipProvider>
-      </div>
-    </ScrollArea>
+        </div>
+      </TooltipProvider>
+    </div>
   );
 }
