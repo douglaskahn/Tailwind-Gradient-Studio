@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/tooltip"
 
 type TailwindColorPaletteProps = {
-  onColorSelect: (color: HSLColor) => void;
+  onColorSelect: (color: HSLColor, name: string) => void;
 };
 
 export default function TailwindColorPalette({ onColorSelect }: TailwindColorPaletteProps) {
@@ -34,7 +34,7 @@ export default function TailwindColorPalette({ onColorSelect }: TailwindColorPal
                   <Tooltip key={color.name} delayDuration={0}>
                     <TooltipTrigger asChild>
                       <button
-                        onClick={() => onColorSelect(color.hsl)}
+                        onClick={() => onColorSelect(color.hsl, color.name)}
                         className="h-6 w-6 rounded-full border focus:outline-none focus:ring-2 focus:ring-ring"
                         style={{ backgroundColor: color.hex }}
                         aria-label={color.name}

@@ -8,6 +8,7 @@ export type ColorStop = {
   id: number;
   color: HSLColor;
   position: number;
+  tailwindName?: string;
 };
 
 export type PrimaryGradient = {

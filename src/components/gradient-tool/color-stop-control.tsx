@@ -20,11 +20,15 @@ type ColorStopControlProps = {
 
 export default function ColorStopControl({ label, colorStop, onChange }: ColorStopControlProps) {
   const handleColorChange = (newColor: Partial<HSLColor>) => {
-    onChange({ color: { ...colorStop.color, ...newColor } });
+    onChange({ color: { ...colorStop.color, ...newColor }, tailwindName: undefined });
   };
   
   const handlePositionChange = (value: number[]) => {
     onChange({ position: value[0] });
+  };
+
+  const handlePaletteSelect = (color: HSLColor, name: string) => {
+    onChange({ color, tailwindName: name });
   };
 
   return (
@@ -35,7 +39,10 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
                 className="w-10 h-10 rounded-md border-2 border-white/50 shadow-inner cursor-pointer"
                 style={{ backgroundColor: hslToHex(colorStop.color.h, colorStop.color.s, colorStop.color.l) }}
               />
-              <h4 className="font-medium">{label}</h4>
+              <div className='flex flex-col'>
+                <h4 className="font-medium">{label}</h4>
+                {colorStop.tailwindName && <span className='text-xs text-muted-foreground'>{colorStop.tailwindName}</span>}
+              </div>
             </div>
             <Popover>
               <PopoverTrigger asChild>
@@ -44,7 +51,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-80">
-                <TailwindColorPalette onColorSelect={(color) => onChange({color})} />
+                <TailwindColorPalette onColorSelect={handlePaletteSelect} />
               </PopoverContent>
             </Popover>
         </div>

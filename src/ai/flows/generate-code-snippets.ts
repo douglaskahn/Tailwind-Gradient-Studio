@@ -12,8 +12,9 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GradientColorStopSchema = z.object({
-  color: z.string().describe('The color value (e.g., #RRGGBB or color name).'),
+  color: z.string().describe('The color value in HEX format (e.g., #RRGGBB).'),
   position: z.number().min(0).max(100).describe('The position of the color stop in the gradient (0-100).'),
+  isTailwind: z.boolean().describe('Whether the color is from the Tailwind CSS palette.')
 });
 
 const PrimaryGradientConfigSchema = z.object({
@@ -34,9 +35,9 @@ const GenerateCodeSnippetsInputSchema = z.object({
 export type GenerateCodeSnippetsInput = z.infer<typeof GenerateCodeSnippetsInputSchema>;
 
 const GenerateCodeSnippetsOutputSchema = z.object({
-  tailwindCss: z.string().describe('The Tailwind CSS code snippet.'),
-  css: z.string().describe('The standard CSS code snippet.'),
-  rgb: z.string().describe('The RGB code snippet.'),
+  tailwindCss: z.string().describe('The Tailwind CSS class definition for the gradient. If any color is not a Tailwind color, this should be an empty string and a note should be added to the CSS output explaining how to configure tailwind.config.js.'),
+  css: z.string().describe('The standard CSS `background-image` and `background-blend-mode` properties using HEX values.'),
+  rgb: z.string().describe('The standard CSS `background-image` and `background-blend-mode` properties using RGB values.'),
 });
 export type GenerateCodeSnippetsOutput = z.infer<typeof GenerateCodeSnippetsOutputSchema>;
 
@@ -48,31 +49,38 @@ const prompt = ai.definePrompt({
   name: 'generateCodeSnippetsPrompt',
   input: {schema: GenerateCodeSnippetsInputSchema},
   output: {schema: GenerateCodeSnippetsOutputSchema},
-  prompt: `You are a code generator expert specializing in CSS gradients. Based on the provided primary and overlay gradient configurations, generate Tailwind CSS, standard CSS, and RGB code snippets.
+  prompt: `You are an expert CSS gradient code generator. Generate Tailwind CSS, standard CSS (HEX), and standard CSS (RGB) for the given gradient configuration.
 
-Here are the configurations:
+**Configuration:**
+- Primary Gradient: Angle {{{primaryGradient.angle}}}deg, Colors: {{#each primaryGradient.colorStops}}{{{this.color}}} at {{{this.position}}}%{{#if this.isTailwind}} (Tailwind){{/if}}, {{/each}}
+- Overlay Gradient: Angle {{{overlayGradient.angle}}}deg, Colors: {{#each overlayGradient.colorStops}}{{{this.color}}} at {{{this.position}}}%{{#if this.isTailwind}} (Tailwind){{/if}}, {{/each}}
+- Overlay Blend Mode: {{{overlayGradient.blendMode}}}
+- Overlay Opacity: {{{overlayGradient.opacity}}}
 
-Primary Gradient:
-Color Stops: {{#each primaryGradient.colorStops}}{{{this.color}}} ({{{this.position}}}%), {{/each}}
-Angle: {{{primaryGradient.angle}}} degrees
+**Outputting Tailwind CSS:**
+- If ALL colors are from the Tailwind palette (isTailwind is true), generate Tailwind utility classes.
+- The gradient will be a combination of two linear gradients.
+- Example: \`bg-[linear-gradient(90deg,theme(colors.red.500)_0%,theme(colors.blue.500)_100%),linear-gradient(90deg,theme(colors.yellow.300)_0%,theme(colors.green.300)_100%)]\`
+- The overlay gradient should have its opacity applied to the colors directly using an alpha channel if possible, not via the \`opacity\` property.
+- The blend mode should be applied as a class, e.g., \`bg-blend-overlay\`.
+- If ANY color is not a Tailwind color, output an empty string for \`tailwindCss\` and add a comment in the \`css\` output explaining that custom colors need to be added to \`tailwind.config.js\`.
 
-Overlay Gradient:
-Color Stops: {{#each overlayGradient.colorStops}}{{{this.color}}} ({{{this.position}}}%), {{/each}}
-Blend Mode: {{{overlayGradient.blendMode}}}
-Opacity: {{{overlayGradient.opacity}}}
+**Outputting Standard CSS (HEX & RGB):**
+- Generate the \`background-image\` property with two linear-gradients.
+- The first gradient is the primary one.
+- The second is the overlay, with its colors converted to RGBA to include the opacity.
+- Apply the blend mode using \`background-blend-mode\`.
+- For the RGB output, convert all HEX colors to their RGB/RGBA equivalents.
 
-Output the code snippets in the following format:
+**Example CSS Output:**
+\`\`\`css
+.gradient {
+  background-image: linear-gradient(...), linear-gradient(...);
+  background-blend-mode: ...;
+}
+\`\`\`
 
-Tailwind CSS:
-<Tailwind CSS code>
-
-CSS:
-<CSS code>
-
-RGB:
-<RGB code>
-
-Ensure that the generated code is syntactically correct and ready to be used in a project. The CSS code should be compatible with most browsers, consider adding/removing browser-specific prefixes as needed, and the Tailwind CSS should utilize Tailwind classes where appropriate.
+Generate the code snippets now based on the provided configuration.
 `,
 });
 

@@ -12,14 +12,15 @@ import PrimaryGradientDesigner from './primary-gradient-designer';
 import OverlayGradientDesigner from './overlay-gradient-designer';
 import CodeOutput from './code-output';
 import { Card } from '../ui/card';
+import { ScrollArea } from '../ui/scroll-area';
 
 export default function GradientCreator() {
   const [primaryGradient, setPrimaryGradient] = useState<PrimaryGradient>({
     angle: 90,
     colorStops: [
-      { id: 1, color: { h: 195, s: 91, l: 65 }, position: 0 },
-      { id: 2, color: { h: 217, s: 91, l: 65 }, position: 50 },
-      { id: 3, color: { h: 262, s: 91, l: 65 }, position: 100 },
+      { id: 1, color: { h: 195, s: 91, l: 65 }, position: 0, tailwindName: 'sky-400' },
+      { id: 2, color: { h: 217, s: 91, l: 65 }, position: 50, tailwindName: 'blue-500' },
+      { id: 3, color: { h: 262, s: 91, l: 65 }, position: 100, tailwindName: 'violet-500' },
     ],
   });
 
@@ -28,8 +29,8 @@ export default function GradientCreator() {
     blendMode: 'overlay',
     opacity: 0.5,
     colorStops: [
-      { id: 1, color: { h: 35, s: 100, l: 63 }, position: 0 },
-      { id: 2, color: { h: 0, s: 0, l: 100 }, position: 100 },
+      { id: 1, color: { h: 35, s: 100, l: 63 }, position: 0, tailwindName: 'amber-400' },
+      { id: 2, color: { h: 0, s: 0, l: 100 }, position: 100, tailwindName: 'white' },
     ],
   });
   
@@ -48,10 +49,10 @@ export default function GradientCreator() {
 
   return (
     <section id="gradient-creator" className="space-y-8 py-12">
-      <div className="relative">
-        <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
-        
-        {isDesktop && (
+      <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-start">
+        <div className="relative">
+          <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
+          
           <div className="absolute top-4 right-4 z-20 flex gap-2">
             <Dialog>
               <DialogTrigger asChild>
@@ -60,26 +61,28 @@ export default function GradientCreator() {
                 </Button>
               </DialogTrigger>
               <DialogContent className="p-0 border-0 max-w-7xl">
-                 <DialogHeader className="sr-only">
-                  <DialogTitle>Gradient Full-Screen Preview</DialogTitle>
-                  <DialogDescription>
+                 <DialogHeader>
+                  <DialogTitle className="sr-only">Gradient Full-Screen Preview</DialogTitle>
+                  <DialogDescription className="sr-only">
                     A full-screen preview of the generated gradient.
                   </DialogDescription>
                 </DialogHeader>
                 <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal />
               </DialogContent>
             </Dialog>
-            <Button variant="ghost" size="icon" onClick={() => setPanelsVisible(!panelsVisible)} className="bg-black/20 hover:bg-black/40 text-white hover:text-white">
-              {panelsVisible ? <PanelLeftClose className="h-5 w-5" /> : <PanelRightClose className="h-5 w-5" />}
-            </Button>
+            {isDesktop && (
+              <Button variant="ghost" size="icon" onClick={() => setPanelsVisible(!panelsVisible)} className="bg-black/20 hover:bg-black/40 text-white hover:text-white">
+                {panelsVisible ? <PanelLeftClose className="h-5 w-5" /> : <PanelRightClose className="h-5 w-5" />}
+              </Button>
+            )}
           </div>
-        )}
+        </div>
 
-        {isDesktop && panelsVisible && (
-          <div className="absolute z-10 top-0 left-0 h-full w-full p-6 lg:p-12 overflow-y-auto pointer-events-none">
-            <div className="flex justify-between gap-8 items-start">
-              <div className="w-full max-w-sm pointer-events-auto">
-                <Card className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg">
+        <div className="mt-8 lg:mt-0">
+          {isDesktop ? (
+            panelsVisible ? (
+              <div className="space-y-4">
+                 <Card className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg">
                   <div className="flex p-1">
                     <Button
                       variant={activeTab === 'settings' ? "secondary" : "ghost"}
@@ -99,22 +102,29 @@ export default function GradientCreator() {
                     </Button>
                   </div>
                 </Card>
-
-                <div className="mt-4">
-                  {activeTab === 'settings' ? gradientControls : codePanel}
-                </div>
+                
+                <ScrollArea className="h-[calc(100vh-22rem)]">
+                  <div className="pr-4">
+                    {activeTab === 'settings' ? gradientControls : codePanel}
+                  </div>
+                </ScrollArea>
               </div>
+            ) : (
+              <div className="h-full flex items-center justify-center">
+                <Card className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg p-8 text-center">
+                  <h3 className="font-headline text-2xl">Controls Hidden</h3>
+                  <p className="text-muted-foreground mt-2">Click the <PanelRightClose className="inline h-4 w-4" /> icon to show controls.</p>
+                </Card>
+              </div>
+            )
+          ) : (
+            <div className="space-y-8">
+              {gradientControls}
+              {codePanel}
             </div>
-          </div>
-        )}
-      </div>
-
-      {!isDesktop && (
-        <div className="space-y-8">
-          {gradientControls}
-          {codePanel}
+          )}
         </div>
-      )}
+      </div>
     </section>
   );
 }

@@ -10,6 +10,8 @@ import { Copy, RefreshCw } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { Info } from 'lucide-react';
 
 type CodeOutputProps = {
   primaryGradient: PrimaryGradient;
@@ -17,6 +19,18 @@ type CodeOutputProps = {
 };
 
 const CodeBlock = ({ code, onCopy }: { code: string | undefined; onCopy: (code: string | undefined) => void }) => {
+    if (!code) {
+        return (
+            <Alert>
+                <Info className="h-4 w-4" />
+                <AlertTitle>Not Applicable</AlertTitle>
+                <AlertDescription>
+                    Tailwind CSS output is only available when all selected colors are from the Tailwind palette.
+                </AlertDescription>
+            </Alert>
+        )
+    }
+
     return (
         <div className="relative">
             <pre className="bg-muted p-4 rounded-md text-sm overflow-x-auto">
@@ -51,6 +65,7 @@ export default function CodeOutput({ primaryGradient, overlayGradient }: CodeOut
           colorStops: primaryGradient.colorStops.map(cs => ({
             color: hslToHex(cs.color.h, cs.color.s, cs.color.l),
             position: cs.position,
+            isTailwind: !!cs.tailwindName,
           })),
         },
         overlayGradient: {
@@ -59,6 +74,7 @@ export default function CodeOutput({ primaryGradient, overlayGradient }: CodeOut
           colorStops: overlayGradient.colorStops.map(cs => ({
             color: hslToHex(cs.color.h, cs.color.s, cs.color.l),
             position: cs.position,
+            isTailwind: !!cs.tailwindName,
           })),
         },
       };
@@ -82,6 +98,33 @@ export default function CodeOutput({ primaryGradient, overlayGradient }: CodeOut
     };
   }, [fetchCode]);
 
+  const renderContent = () => {
+    if (isLoading) {
+      return <Skeleton className="h-32 w-full" />;
+    }
+    if (error) {
+      return <p className="text-destructive text-center p-4">{error}</p>;
+    }
+    return (
+      <Tabs defaultValue="tailwind" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="tailwind">Tailwind</TabsTrigger>
+          <TabsTrigger value="css">CSS (Hex)</TabsTrigger>
+          <TabsTrigger value="rgb">CSS (RGB)</TabsTrigger>
+        </TabsList>
+        <TabsContent value="tailwind">
+          <CodeBlock code={generatedCode?.tailwindCss} onCopy={copyToClipboard} />
+        </TabsContent>
+        <TabsContent value="css">
+          <CodeBlock code={generatedCode?.css} onCopy={copyToClipboard} />
+        </TabsContent>
+        <TabsContent value="rgb">
+          <CodeBlock code={generatedCode?.rgb} onCopy={copyToClipboard} />
+        </TabsContent>
+      </Tabs>
+    );
+  };
+
   return (
     <Card className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg">
         <CardHeader className="flex-row items-center justify-between">
@@ -91,23 +134,7 @@ export default function CodeOutput({ primaryGradient, overlayGradient }: CodeOut
             </Button>
         </CardHeader>
         <CardContent>
-             {error && <p className="text-destructive text-center p-4">{error}</p>}
-            <Tabs defaultValue="tailwind" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="tailwind">Tailwind CSS</TabsTrigger>
-                    <TabsTrigger value="css">CSS</TabsTrigger>
-                    <TabsTrigger value="rgb">RGB</TabsTrigger>
-                </TabsList>
-                <TabsContent value="tailwind">
-                    {isLoading ? <Skeleton className="h-24 w-full" /> : <CodeBlock code={generatedCode?.tailwindCss} onCopy={copyToClipboard} />}
-                </TabsContent>
-                <TabsContent value="css">
-                    {isLoading ? <Skeleton className="h-24 w-full" /> : <CodeBlock code={generatedCode?.css} onCopy={copyToClipboard} />}
-                </TabsContent>
-                <TabsContent value="rgb">
-                    {isLoading ? <Skeleton className="h-24 w-full" /> : <CodeBlock code={generatedCode?.rgb} onCopy={copyToClipboard} />}
-                </TabsContent>
-            </Tabs>
+             {renderContent()}
         </CardContent>
     </Card>
   );
