@@ -51,7 +51,7 @@ export default function OverlayGradientDesigner({ gradient, setGradient }: Overl
             <div className="space-y-2">
                 <Label htmlFor="blend-mode">Blend Mode</Label>
                 <Select value={gradient.blendMode} onValueChange={handleBlendModeChange}>
-                    <SelectTrigger id="blend-mode">
+                    <SelectTrigger id="blend-mode" className="bg-background/50">
                         <SelectValue placeholder="Select blend mode" />
                     </SelectTrigger>
                     <SelectContent>

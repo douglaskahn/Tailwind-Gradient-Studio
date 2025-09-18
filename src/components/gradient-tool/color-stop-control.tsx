@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -5,6 +6,11 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { hslToHex } from '@/lib/utils';
 import type { ColorStop, HSLColor } from '@/lib/types';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import TailwindColorPalette from './tailwind-color-palette';
+import { Palette } from 'lucide-react';
+import { Button } from '../ui/button';
+
 
 type ColorStopControlProps = {
   label: string;
@@ -22,13 +28,25 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
   };
 
   return (
-    <div className="space-y-4 p-4 rounded-lg border bg-background/30">
-        <div className='flex items-center gap-4'>
-            <div
-                className="w-10 h-10 rounded-md border-2 border-white/50 shadow-inner"
+    <div className="space-y-4 p-4 rounded-lg border bg-background/50">
+        <div className='flex items-center justify-between gap-4'>
+            <div className='flex items-center gap-4'>
+              <div
+                className="w-10 h-10 rounded-md border-2 border-white/50 shadow-inner cursor-pointer"
                 style={{ backgroundColor: hslToHex(colorStop.color.h, colorStop.color.s, colorStop.color.l) }}
-            />
-            <h4 className="font-medium">{label}</h4>
+              />
+              <h4 className="font-medium">{label}</h4>
+            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Palette className="h-5 w-5" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <TailwindColorPalette onColorSelect={(color) => onChange({color})} />
+              </PopoverContent>
+            </Popover>
         </div>
       <div className="space-y-2">
         <div className="flex justify-between items-center text-sm">

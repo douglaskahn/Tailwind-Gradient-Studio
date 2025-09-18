@@ -1,13 +1,15 @@
 import React from 'react';
 import { hslToHex } from '@/lib/utils';
 import type { PrimaryGradient, OverlayGradient } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 type GradientPreviewProps = {
   primaryGradient: PrimaryGradient;
   overlayGradient: OverlayGradient;
+  isModal?: boolean;
 };
 
-export default function GradientPreview({ primaryGradient, overlayGradient }: GradientPreviewProps) {
+export default function GradientPreview({ primaryGradient, overlayGradient, isModal = false }: GradientPreviewProps) {
   const primaryStops = primaryGradient.colorStops
     .map(s => `${hslToHex(s.color.h, s.color.s, s.color.l)} ${s.position}%`)
     .join(', ');
@@ -20,7 +22,10 @@ export default function GradientPreview({ primaryGradient, overlayGradient }: Gr
   const overlayCss = `linear-gradient(${overlayGradient.angle}deg, ${overlayStops})`;
 
   return (
-    <div className="w-full h-80 rounded-xl shadow-2xl overflow-hidden relative border-4 border-white/20">
+    <div className={cn(
+        "w-full h-80 overflow-hidden relative",
+        isModal ? "h-[80vh] rounded-lg" : "rounded-xl shadow-2xl border-4 border-white/20"
+    )}>
        <div
         className="absolute inset-0"
         style={{
@@ -31,7 +36,7 @@ export default function GradientPreview({ primaryGradient, overlayGradient }: Gr
         className="absolute inset-0"
         style={{
           backgroundImage: overlayCss,
-          mixBlendMode: overlayGradient.blendMode,
+          mixBlendMode: overlayGradient.blendMode as React.CSSProperties['mixBlendMode'],
           opacity: overlayGradient.opacity,
         }}
       />
