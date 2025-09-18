@@ -15,7 +15,7 @@ type TailwindColorPaletteProps = {
 };
 
 export default function TailwindColorPalette({ onColorSelect, selectedColorName }: TailwindColorPaletteProps) {
-  const numColumns = 21; // Based on the number of color families in the new order
+  const numColumns = 22; // Based on the number of color families
 
   return (
     <div className="p-1">
