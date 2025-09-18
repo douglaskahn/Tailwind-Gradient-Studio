@@ -10,6 +10,12 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import TailwindColorPalette from './tailwind-color-palette';
 import { Palette } from 'lucide-react';
 import { Button } from '../ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 
 type ColorStopControlProps = {
@@ -51,11 +57,21 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
               </div>
             </div>
             <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Palette className="h-5 w-5" />
-                </Button>
-              </PopoverTrigger>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <Palette className="h-5 w-5" />
+                        <span className="sr-only">Open Tailwind Palette</span>
+                      </Button>
+                    </PopoverTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Tailwind Palette</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <PopoverContent className="w-80">
                 <TailwindColorPalette onColorSelect={handlePaletteSelect} />
               </PopoverContent>
