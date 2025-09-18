@@ -24,8 +24,23 @@ type GeneratedCode = {
 
 const generateTailwindCss = (primaryGradient: PrimaryGradient, overlayGradient: OverlayGradient): string => {
   const hasCustomColor = [...primaryGradient.colorStops, ...overlayGradient.colorStops].some(cs => !cs.tailwindName);
+  
   if (hasCustomColor) {
-    return '';
+    const primaryStops = primaryGradient.colorStops
+      .map(s => `${hslToHex(s.color.h, s.color.s, s.color.l)} ${s.position}%`)
+      .join(', ');
+
+    const overlayStops = overlayGradient.colorStops
+      .map(s => {
+        const { r, g, b } = hslToRgb(s.color.h, s.color.s, s.color.l);
+        return `rgba(${r},${g},${b},${overlayGradient.opacity}) ${s.position}%`;
+      })
+      .join(', ');
+      
+    const primaryGradientCss = `linear-gradient(${primaryGradient.angle}deg, ${primaryStops})`;
+    const overlayGradientCss = `linear-gradient(${overlayGradient.angle}deg, ${overlayStops})`;
+
+    return `bg-[${primaryGradientCss},${overlayGradientCss}] bg-blend-${overlayGradient.blendMode}`;
   }
 
   const primaryStops = primaryGradient.colorStops
@@ -34,10 +49,12 @@ const generateTailwindCss = (primaryGradient: PrimaryGradient, overlayGradient: 
   const overlayStops = overlayGradient.colorStops
     .map(s => {
         const colorName = s.tailwindName?.split('-')
-        if (colorName?.length === 2) {
+        if (colorName?.length === 2 && !['black', 'white'].includes(colorName[0])) {
             return `theme(colors.${colorName[0]}.${colorName[1]}/${overlayGradient.opacity})_${s.position}%`
         }
-        return `theme(colors.${s.tailwindName})_${s.position}%`
+        // For black, white, or single-name colors, we can't use the slash opacity modifier in theme()
+        const { r, g, b } = hslToRgb(s.color.h, s.color.s, s.color.l);
+        return `rgba(${r},${g},${b},${overlayGradient.opacity})_${s.position}%`
     })
     .join(',');
 
@@ -85,11 +102,6 @@ const generateStandardCss = (primaryGradient: PrimaryGradient, overlayGradient: 
   css += `  background-blend-mode: ${overlayGradient.blendMode};\n`;
   css += `}`;
 
-  const hasCustomColor = [...primaryGradient.colorStops, ...overlayGradient.colorStops].some(cs => !cs.tailwindName);
-  if (hasCustomColor && !useRgb) {
-    css += `\n\n/* Note: To use custom colors with Tailwind, you need to extend your theme in tailwind.config.js. */`;
-  }
-
   return css;
 };
 
@@ -97,13 +109,9 @@ const generateStandardCss = (primaryGradient: PrimaryGradient, overlayGradient: 
 const CodeBlock = ({ code, onCopy }: { code: string | undefined; onCopy: (code: string | undefined) => void }) => {
     if (!code) {
         return (
-            <Alert>
-                <Info className="h-4 w-4" />
-                <AlertTitle>Not Applicable</AlertTitle>
-                <AlertDescription>
-                    Tailwind CSS output is only available when all selected colors are from the Tailwind palette.
-                </AlertDescription>
-            </Alert>
+             <pre className="bg-muted p-4 rounded-md text-sm overflow-x-auto">
+                <code>Generating code...</code>
+            </pre>
         )
     }
 
