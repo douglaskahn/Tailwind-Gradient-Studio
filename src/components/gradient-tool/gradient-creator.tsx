@@ -84,7 +84,7 @@ export default function GradientCreator() {
                       Controls
                     </Button>
                     <Button
-                      variant={active-tab === 'code' ? "secondary" : "ghost"}
+                      variant={activeTab === 'code' ? "secondary" : "ghost"}
                       onClick={() => setActiveTab('code')}
                       className="flex-1"
                     >
