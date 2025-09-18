@@ -4,7 +4,7 @@
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { hslToHex } from '@/lib/utils';
+import { hslToHex, hslToRgb } from '@/lib/utils';
 import type { ColorStop, HSLColor } from '@/lib/types';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import TailwindColorPalette from './tailwind-color-palette';
@@ -31,17 +31,23 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
     onChange({ color, tailwindName: name });
   };
 
+  const hexValue = hslToHex(colorStop.color.h, colorStop.color.s, colorStop.color.l);
+  const rgbValue = hslToRgb(colorStop.color.h, colorStop.color.s, colorStop.color.l);
+
   return (
     <div className="space-y-4 p-4 rounded-lg border bg-background/50">
         <div className='flex items-center justify-between gap-4'>
             <div className='flex items-center gap-4'>
               <div
-                className="w-10 h-10 rounded-md border-2 border-white/50 shadow-inner cursor-pointer"
-                style={{ backgroundColor: hslToHex(colorStop.color.h, colorStop.color.s, colorStop.color.l) }}
+                className="w-10 h-10 rounded-md border-2 border-white/50 shadow-inner"
+                style={{ backgroundColor: hexValue }}
               />
               <div className='flex flex-col'>
                 <h4 className="font-medium">{label}</h4>
-                {colorStop.tailwindName && <span className='text-xs text-muted-foreground'>{colorStop.tailwindName}</span>}
+                <div className='text-xs text-muted-foreground space-x-2 font-mono'>
+                    <span>{hexValue.toUpperCase()}</span>
+                    <span>{`rgb(${rgbValue.r}, ${rgbValue.g}, ${rgbValue.b})`}</span>
+                </div>
               </div>
             </div>
             <Popover>
@@ -55,6 +61,9 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
               </PopoverContent>
             </Popover>
         </div>
+
+      {colorStop.tailwindName && <div className='text-sm text-muted-foreground font-medium pt-2'>Tailwind Color: <span className='font-mono p-1 bg-muted rounded-sm'>{colorStop.tailwindName}</span></div>}
+
       <div className="space-y-2">
         <div className="flex justify-between items-center text-sm">
           <Label>Hue</Label>

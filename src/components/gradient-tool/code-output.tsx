@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { generateCodeSnippets, type GenerateCodeSnippetsOutput } from '@/ai/flows/generate-code-snippets';
+import React, { useState, useEffect } from 'react';
 import type { PrimaryGradient, OverlayGradient } from '@/lib/types';
-import { hslToHex } from '@/lib/utils';
+import { hslToHex, hslToRgb } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
-import { Copy, RefreshCw } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Copy } from 'lucide-react';
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
@@ -17,6 +15,84 @@ type CodeOutputProps = {
   primaryGradient: PrimaryGradient;
   overlayGradient: OverlayGradient;
 };
+
+type GeneratedCode = {
+  tailwindCss: string;
+  css: string;
+  rgb: string;
+};
+
+const generateTailwindCss = (primaryGradient: PrimaryGradient, overlayGradient: OverlayGradient): string => {
+  const hasCustomColor = [...primaryGradient.colorStops, ...overlayGradient.colorStops].some(cs => !cs.tailwindName);
+  if (hasCustomColor) {
+    return '';
+  }
+
+  const primaryStops = primaryGradient.colorStops
+    .map(s => `theme(colors.${s.tailwindName})_${s.position}%`)
+    .join(',');
+  const overlayStops = overlayGradient.colorStops
+    .map(s => {
+        const colorName = s.tailwindName?.split('-')
+        if (colorName?.length === 2) {
+            return `theme(colors.${colorName[0]}.${colorName[1]}/${overlayGradient.opacity})_${s.position}%`
+        }
+        return `theme(colors.${s.tailwindName})_${s.position}%`
+    })
+    .join(',');
+
+  const primaryGradientCss = `linear-gradient(${primaryGradient.angle}deg,${primaryStops})`;
+  const overlayGradientCss = `linear-gradient(${overlayGradient.angle}deg,${overlayStops})`;
+
+  const blendModeClass = `bg-blend-${overlayGradient.blendMode}`;
+  const bgClass = `bg-[${primaryGradientCss},${overlayGradientCss}]`;
+
+  return `${bgClass} ${blendModeClass}`;
+};
+
+const generateStandardCss = (primaryGradient: PrimaryGradient, overlayGradient: OverlayGradient, useRgb: boolean): string => {
+  const toColorString = (h: number, s: number, l: number, a: number) => {
+    if (useRgb) {
+      const { r, g, b } = hslToRgb(h, s, l);
+      return `rgba(${r}, ${g}, ${b}, ${a})`;
+    }
+    const hex = hslToHex(h, s, l);
+    const alphaHex = Math.round(a * 255).toString(16).padStart(2, '0');
+    return `${hex}${alphaHex}`;
+  };
+  
+  const toColorStringNoAlpha = (h: number, s: number, l: number) => {
+     if (useRgb) {
+      const { r, g, b } = hslToRgb(h, s, l);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+    return hslToHex(h, s, l);
+  }
+
+  const primaryStops = primaryGradient.colorStops
+    .map(s => `${toColorStringNoAlpha(s.color.h, s.color.s, s.color.l)} ${s.position}%`)
+    .join(', ');
+
+  const overlayStops = overlayGradient.colorStops
+    .map(s => `${toColorString(s.color.h, s.color.s, s.color.l, overlayGradient.opacity)} ${s.position}%`)
+    .join(', ');
+
+  const primaryGradientCss = `linear-gradient(${primaryGradient.angle}deg, ${primaryStops})`;
+  const overlayGradientCss = `linear-gradient(${overlayGradient.angle}deg, ${overlayStops})`;
+  
+  let css = `.gradient {\n`;
+  css += `  background-image: ${primaryGradientCss}, ${overlayGradientCss};\n`;
+  css += `  background-blend-mode: ${overlayGradient.blendMode};\n`;
+  css += `}`;
+
+  const hasCustomColor = [...primaryGradient.colorStops, ...overlayGradient.colorStops].some(cs => !cs.tailwindName);
+  if (hasCustomColor && !useRgb) {
+    css += `\n\n/* Note: To use custom colors with Tailwind, you need to extend your theme in tailwind.config.js. */`;
+  }
+
+  return css;
+};
+
 
 const CodeBlock = ({ code, onCopy }: { code: string | undefined; onCopy: (code: string | undefined) => void }) => {
     if (!code) {
@@ -34,7 +110,7 @@ const CodeBlock = ({ code, onCopy }: { code: string | undefined; onCopy: (code: 
     return (
         <div className="relative">
             <pre className="bg-muted p-4 rounded-md text-sm overflow-x-auto">
-                <code>{code || ''}</code>
+                <code>{code}</code>
             </pre>
             <Button
                 variant="ghost"
@@ -50,91 +126,38 @@ const CodeBlock = ({ code, onCopy }: { code: string | undefined; onCopy: (code: 
 
 
 export default function CodeOutput({ primaryGradient, overlayGradient }: CodeOutputProps) {
-  const [generatedCode, setGeneratedCode] = useState<GenerateCodeSnippetsOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [generatedCode, setGeneratedCode] = useState<GeneratedCode | null>(null);
   const { copyToClipboard } = useCopyToClipboard();
 
-  const fetchCode = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const input = {
-        primaryGradient: {
-          angle: primaryGradient.angle,
-          colorStops: primaryGradient.colorStops.map(cs => ({
-            color: hslToHex(cs.color.h, cs.color.s, cs.color.l),
-            position: cs.position,
-            isTailwind: !!cs.tailwindName,
-          })),
-        },
-        overlayGradient: {
-          blendMode: overlayGradient.blendMode,
-          opacity: overlayGradient.opacity,
-          colorStops: overlayGradient.colorStops.map(cs => ({
-            color: hslToHex(cs.color.h, cs.color.s, cs.color.l),
-            position: cs.position,
-            isTailwind: !!cs.tailwindName,
-          })),
-        },
-      };
-      const result = await generateCodeSnippets(input);
-      setGeneratedCode(result);
-    } catch (e) {
-      setError("Failed to generate code. Please try again.");
-      console.error(e);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [primaryGradient, overlayGradient]);
-
   useEffect(() => {
-    const handler = setTimeout(() => {
-      fetchCode();
-    }, 500);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [fetchCode]);
-
-  const renderContent = () => {
-    if (isLoading) {
-      return <Skeleton className="h-32 w-full" />;
-    }
-    if (error) {
-      return <p className="text-destructive text-center p-4">{error}</p>;
-    }
-    return (
-      <Tabs defaultValue="tailwind" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="tailwind">Tailwind</TabsTrigger>
-          <TabsTrigger value="css">CSS (Hex)</TabsTrigger>
-          <TabsTrigger value="rgb">CSS (RGB)</TabsTrigger>
-        </TabsList>
-        <TabsContent value="tailwind">
-          <CodeBlock code={generatedCode?.tailwindCss} onCopy={copyToClipboard} />
-        </TabsContent>
-        <TabsContent value="css">
-          <CodeBlock code={generatedCode?.css} onCopy={copyToClipboard} />
-        </TabsContent>
-        <TabsContent value="rgb">
-          <CodeBlock code={generatedCode?.rgb} onCopy={copyToClipboard} />
-        </TabsContent>
-      </Tabs>
-    );
-  };
+    const tailwindCss = generateTailwindCss(primaryGradient, overlayGradient);
+    const css = generateStandardCss(primaryGradient, overlayGradient, false);
+    const rgb = generateStandardCss(primaryGradient, overlayGradient, true);
+    setGeneratedCode({ tailwindCss, css, rgb });
+  }, [primaryGradient, overlayGradient]);
 
   return (
     <Card className="bg-white/10 backdrop-blur-lg border border-white/20 shadow-lg">
-        <CardHeader className="flex-row items-center justify-between">
+        <CardHeader>
             <CardTitle className="font-headline text-2xl">Generated Code</CardTitle>
-            <Button variant="ghost" size="icon" onClick={fetchCode} disabled={isLoading}>
-                <RefreshCw className={`h-5 w-5 ${isLoading ? 'animate-spin' : ''}`} />
-            </Button>
         </CardHeader>
         <CardContent>
-             {renderContent()}
+            <Tabs defaultValue="tailwind" className="w-full">
+                <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="tailwind">Tailwind</TabsTrigger>
+                <TabsTrigger value="css">CSS (Hex)</TabsTrigger>
+                <TabsTrigger value="rgb">CSS (RGB)</TabsTrigger>
+                </TabsList>
+                <TabsContent value="tailwind">
+                <CodeBlock code={generatedCode?.tailwindCss} onCopy={copyToClipboard} />
+                </TabsContent>
+                <TabsContent value="css">
+                <CodeBlock code={generatedCode?.css} onCopy={copyToClipboard} />
+                </TabsContent>
+                <TabsContent value="rgb">
+                <CodeBlock code={generatedCode?.rgb} onCopy={copyToClipboard} />
+                </TabsContent>
+            </Tabs>
         </CardContent>
     </Card>
   );
