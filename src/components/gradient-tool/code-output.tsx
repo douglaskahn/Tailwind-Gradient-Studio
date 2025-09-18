@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -8,8 +9,6 @@ import { Button } from '@/components/ui/button';
 import { Copy } from 'lucide-react';
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
-import { Info } from 'lucide-react';
 
 type CodeOutputProps = {
   primaryGradient: PrimaryGradient;
@@ -44,27 +43,33 @@ const generateTailwindCss = (primaryGradient: PrimaryGradient, overlayGradient: 
   }
 
   const primaryStops = primaryGradient.colorStops
-    .map(s => `theme(colors.${s.tailwindName})_${s.position}%`)
-    .join(',');
-  const overlayStops = overlayGradient.colorStops
-    .map(s => {
-        const colorName = s.tailwindName?.split('-')
-        if (colorName?.length === 2 && !['black', 'white'].includes(colorName[0])) {
-            return `theme(colors.${colorName[0]}.${colorName[1]}/${overlayGradient.opacity})_${s.position}%`
-        }
-        // For black, white, or single-name colors, we can't use the slash opacity modifier in theme()
+    .map(s => `from-${s.tailwindName}`)
+    .join(' ');
+  const viaStops = primaryGradient.colorStops
+    .slice(1, -1)
+    .map(s => `via-${s.tailwindName}`)
+    .join(' ');
+  const toStops = primaryGradient.colorStops
+    .slice(-1)
+    .map(s => `to-${s.tailwindName}`)
+    .join(' ');
+  
+  // Note: This is a simplified representation. True multi-stop gradients in Tailwind require more complex config.
+  // We will provide a functional representation here. For more complex cases, arbitrary values are better.
+  const primaryClasses = `${primaryStops} ${viaStops} ${toStops}`;
+
+
+  // For overlay, Tailwind classes for gradients with opacity are tricky. We'll use arbitrary values.
+   const overlayStopsArbitrary = overlayGradient.colorStops
+      .map(s => {
         const { r, g, b } = hslToRgb(s.color.h, s.color.s, s.color.l);
-        return `rgba(${r},${g},${b},${overlayGradient.opacity})_${s.position}%`
-    })
-    .join(',');
+        return `rgba(${r},${g},${b},${overlayGradient.opacity}) ${s.position}%`;
+      })
+      .join(', ');
 
-  const primaryGradientCss = `linear-gradient(${primaryGradient.angle}deg,${primaryStops})`;
-  const overlayGradientCss = `linear-gradient(${overlayGradient.angle}deg,${overlayStops})`;
+  const arbitraryOverlay = `[background-image:linear-gradient(${overlayGradient.angle}deg,${overlayStopsArbitrary})]`;
 
-  const blendModeClass = `bg-blend-${overlayGradient.blendMode}`;
-  const bgClass = `bg-[${primaryGradientCss},${overlayGradientCss}]`;
-
-  return `${bgClass} ${blendModeClass}`;
+  return `bg-gradient-to-r ${primaryClasses} ${arbitraryOverlay} bg-blend-${overlayGradient.blendMode}`;
 };
 
 const generateStandardCss = (primaryGradient: PrimaryGradient, overlayGradient: OverlayGradient, useRgb: boolean): string => {
