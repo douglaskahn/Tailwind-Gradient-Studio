@@ -1,0 +1,87 @@
+"use client";
+
+import React from 'react';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import { hslToHex } from '@/lib/utils';
+import type { ColorStop, HSLColor } from '@/lib/types';
+
+type ColorStopControlProps = {
+  label: string;
+  colorStop: ColorStop;
+  onChange: (newColorStop: Partial<ColorStop>) => void;
+};
+
+export default function ColorStopControl({ label, colorStop, onChange }: ColorStopControlProps) {
+  const handleColorChange = (newColor: Partial<HSLColor>) => {
+    onChange({ color: { ...colorStop.color, ...newColor } });
+  };
+  
+  const handlePositionChange = (value: number[]) => {
+    onChange({ position: value[0] });
+  };
+
+  return (
+    <div className="space-y-4 p-4 rounded-lg border bg-background/30">
+        <div className='flex items-center gap-4'>
+            <div
+                className="w-10 h-10 rounded-md border-2 border-white/50 shadow-inner"
+                style={{ backgroundColor: hslToHex(colorStop.color.h, colorStop.color.s, colorStop.color.l) }}
+            />
+            <h4 className="font-medium">{label}</h4>
+        </div>
+      <div className="space-y-2">
+        <div className="flex justify-between items-center text-sm">
+          <Label>Hue</Label>
+          <span className="text-muted-foreground">{colorStop.color.h}</span>
+        </div>
+        <Slider
+          min={0}
+          max={360}
+          step={1}
+          value={[colorStop.color.h]}
+          onValueChange={value => handleColorChange({ h: value[0] })}
+        />
+      </div>
+      <div className="space-y-2">
+        <div className="flex justify-between items-center text-sm">
+          <Label>Saturation</Label>
+          <span className="text-muted-foreground">{colorStop.color.s}%</span>
+        </div>
+        <Slider
+          min={0}
+          max={100}
+          step={1}
+          value={[colorStop.color.s]}
+          onValueChange={value => handleColorChange({ s: value[0] })}
+        />
+      </div>
+      <div className="space-y-2">
+        <div className="flex justify-between items-center text-sm">
+          <Label>Lightness</Label>
+          <span className="text-muted-foreground">{colorStop.color.l}%</span>
+        </div>
+        <Slider
+          min={0}
+          max={100}
+          step={1}
+          value={[colorStop.color.l]}
+          onValueChange={value => handleColorChange({ l: value[0] })}
+        />
+      </div>
+       <div className="space-y-2">
+        <div className="flex justify-between items-center text-sm">
+          <Label>Position</Label>
+          <span className="text-muted-foreground">{colorStop.position}%</span>
+        </div>
+        <Slider
+          min={0}
+          max={100}
+          step={1}
+          value={[colorStop.position]}
+          onValueChange={handlePositionChange}
+        />
+      </div>
+    </div>
+  );
+}
