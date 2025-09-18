@@ -25,7 +25,8 @@ export default function TailwindColorPalette({ onColorSelect, selectedColorName 
                 <button
                   onClick={() => onColorSelect(color.hsl, color.name)}
                   className={cn(
-                    "h-6 w-6 rounded-md border relative flex items-center justify-center focus:outline-none"
+                    "h-6 w-6 rounded-md border relative flex items-center justify-center focus:outline-none",
+                    selectedColorName === color.name && "ring-2 ring-ring ring-offset-2"
                   )}
                   style={{ backgroundColor: color.hex }}
                   aria-label={color.name}
