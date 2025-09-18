@@ -18,7 +18,7 @@ export default function TailwindColorPalette({ onColorSelect, selectedColorName 
   return (
     <div className="p-1">
       <TooltipProvider delayDuration={0}>
-        <div className="grid grid-cols-[repeat(22,1fr)] gap-1">
+        <div className="grid grid-cols-[repeat(11,1fr)] gap-1">
           {tailwindColors.map((color) => (
             <Tooltip key={color.name} >
               <TooltipTrigger asChild>
