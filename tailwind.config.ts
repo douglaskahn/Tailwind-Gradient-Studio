@@ -16,6 +16,9 @@ export default {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        '22': 'repeat(22, minmax(0, 1fr))',
+      },
       fontFamily: {
         body: ['var(--font-inter)', 'sans-serif'],
         headline: ['var(--font-space-grotesk)', 'sans-serif'],

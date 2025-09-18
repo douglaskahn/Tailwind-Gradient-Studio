@@ -15,15 +15,10 @@ type TailwindColorPaletteProps = {
 };
 
 export default function TailwindColorPalette({ onColorSelect, selectedColorName }: TailwindColorPaletteProps) {
-  const numColumns = 22; // Based on the number of color families
-
   return (
     <div className="p-1">
       <TooltipProvider delayDuration={0}>
-        <div className={cn(
-          "grid gap-1",
-          `grid-cols-[repeat(${numColumns},minmax(0,1fr))]`
-        )}>
+        <div className="grid grid-cols-22 gap-1">
           {tailwindColors.map((color) => (
             <Tooltip key={color.name} >
               <TooltipTrigger asChild>
