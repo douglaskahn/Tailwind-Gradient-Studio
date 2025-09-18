@@ -54,12 +54,8 @@ const generateTailwindCss = (primaryGradient: PrimaryGradient, overlayGradient: 
     .map(s => `to-${s.tailwindName}`)
     .join(' ');
   
-  // Note: This is a simplified representation. True multi-stop gradients in Tailwind require more complex config.
-  // We will provide a functional representation here. For more complex cases, arbitrary values are better.
   const primaryClasses = `${primaryStops} ${viaStops} ${toStops}`;
 
-
-  // For overlay, Tailwind classes for gradients with opacity are tricky. We'll use arbitrary values.
    const overlayStopsArbitrary = overlayGradient.colorStops
       .map(s => {
         const { r, g, b } = hslToRgb(s.color.h, s.color.s, s.color.l);
@@ -114,7 +110,7 @@ const generateStandardCss = (primaryGradient: PrimaryGradient, overlayGradient: 
 const CodeBlock = ({ code, onCopy }: { code: string | undefined; onCopy: (code: string | undefined) => void }) => {
     if (!code) {
         return (
-             <pre className="bg-muted p-4 rounded-md text-sm overflow-x-auto">
+             <pre className="bg-muted p-4 rounded-md text-sm overflow-x-auto whitespace-pre-wrap">
                 <code>Generating code...</code>
             </pre>
         )
@@ -122,7 +118,7 @@ const CodeBlock = ({ code, onCopy }: { code: string | undefined; onCopy: (code: 
 
     return (
         <div className="relative">
-            <pre className="bg-muted p-4 rounded-md text-sm overflow-x-auto">
+            <pre className="bg-muted p-4 rounded-md text-sm overflow-x-auto whitespace-pre-wrap">
                 <code>{code}</code>
             </pre>
             <Button

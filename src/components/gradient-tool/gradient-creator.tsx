@@ -12,7 +12,6 @@ import PrimaryGradientDesigner from './primary-gradient-designer';
 import OverlayGradientDesigner from './overlay-gradient-designer';
 import CodeOutput from './code-output';
 import { Card } from '../ui/card';
-import { ScrollArea } from '../ui/scroll-area';
 
 export default function GradientCreator() {
   const [primaryGradient, setPrimaryGradient] = useState<PrimaryGradient>({
@@ -103,11 +102,9 @@ export default function GradientCreator() {
                   </div>
                 </Card>
                 
-                <ScrollArea className="h-[calc(100vh-22rem)]">
-                  <div className="pr-4">
-                    {activeTab === 'settings' ? gradientControls : codePanel}
-                  </div>
-                </ScrollArea>
+                <div className="pr-4">
+                  {activeTab === 'settings' ? gradientControls : codePanel}
+                </div>
               </div>
             ) : (
               <div className="h-full flex items-center justify-center">
