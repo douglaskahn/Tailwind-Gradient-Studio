@@ -8,7 +8,6 @@ import { hslToHex, hslToRgb } from '@/lib/utils';
 import type { ColorStop, HSLColor } from '@/lib/types';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import TailwindColorPalette from './tailwind-color-palette';
-import { Palette } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
   Tooltip,
@@ -42,12 +41,26 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
 
   return (
     <div className="space-y-4 p-4 rounded-lg border bg-background/50">
+      <Popover>
         <div className='flex items-center justify-between gap-4'>
             <div className='flex items-center gap-4'>
-              <div
-                className="w-10 h-10 rounded-md border-2 border-white/50 shadow-inner"
-                style={{ backgroundColor: hexValue }}
-              />
+               <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <PopoverTrigger asChild>
+                       <button
+                          className="w-10 h-10 rounded-md border-2 border-white/50 shadow-inner focus:outline-none focus:ring-2 focus:ring-ring"
+                          style={{ backgroundColor: hexValue }}
+                          aria-label="Open Tailwind Palette"
+                        />
+                    </PopoverTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Open Tailwind Palette</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
               <div className='flex flex-col'>
                 <h4 className="font-medium">{label}</h4>
                 <div className='text-xs text-muted-foreground space-x-2 font-mono'>
@@ -56,27 +69,11 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
                 </div>
               </div>
             </div>
-            <Popover>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <PopoverTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Palette className="h-5 w-5" />
-                        <span className="sr-only">Open Tailwind Palette</span>
-                      </Button>
-                    </PopoverTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Tailwind Palette</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <PopoverContent className="w-80">
-                <TailwindColorPalette onColorSelect={handlePaletteSelect} />
-              </PopoverContent>
-            </Popover>
         </div>
+        <PopoverContent className="w-80">
+            <TailwindColorPalette onColorSelect={handlePaletteSelect} />
+        </PopoverContent>
+      </Popover>
 
       {colorStop.tailwindName && <div className='text-sm text-muted-foreground font-medium pt-2'>Tailwind Color: <span className='font-mono p-1 bg-muted rounded-sm'>{colorStop.tailwindName}</span></div>}
 
