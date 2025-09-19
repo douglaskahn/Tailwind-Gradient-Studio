@@ -84,7 +84,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
 
             <div className='flex flex-col'>
               <h4 className="font-medium">{label}</h4>
-              <div className='text-xs text-muted-foreground space-x-2 font-mono'>
+              <div className='flex flex-col text-xs text-muted-foreground font-mono'>
                   <span>{hexValue.toUpperCase()}</span>
                   <span>{`rgb(${rgbValue.r}, ${rgbValue.g}, ${rgbValue.b})`}</span>
               </div>
