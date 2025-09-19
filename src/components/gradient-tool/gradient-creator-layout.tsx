@@ -14,6 +14,7 @@ import OverlayGradientDesigner from './overlay-gradient-designer';
 import CodeOutput from './code-output';
 import { ScrollArea } from '../ui/scroll-area';
 import Header from '../layout/header';
+import Footer from '../layout/footer';
 
 type GradientCreatorLayoutProps = {
     primaryGradient: PrimaryGradient;
@@ -48,6 +49,7 @@ export default function GradientCreatorLayout({
                 <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
                 <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
             </div>
+            <Footer />
         </div>
      )
   }
@@ -73,17 +75,18 @@ export default function GradientCreatorLayout({
                         <DialogDescription className="sr-only">
                         A full-screen preview of the generated gradient.
                         </DialogDescription>
-                    </DialogHeader>
+                    </Header>
                     <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal />
                     </DialogContent>
                 </Dialog>
                 </div>
             </div>
         </div>
+        <Footer />
       </div>
       
       <ScrollArea className="h-screen sticky top-0 backdrop-blur-lg border-l border-white/20 shadow-lg">
-        <div className="space-y-8">
+        <div className="p-3.5 space-y-8">
             <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
             <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
             <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
