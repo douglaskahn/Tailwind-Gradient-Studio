@@ -61,6 +61,6 @@
   
   [data-radix-scroll-area-viewport] > div {
     display: block !important;
-    padding-right: 1rem;
+    padding: 1rem;
   }
 }
