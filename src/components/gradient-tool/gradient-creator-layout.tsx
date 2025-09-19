@@ -52,7 +52,7 @@ export default function GradientCreatorLayout({
 
   // Desktop layout: two columns, right sidebar scrolls
   return (
-    <div className="flex-1 w-full grid grid-cols-[1fr_385px]">
+    <div className="flex-1 w-full grid grid-cols-[1fr_340px]">
       <div className="relative w-full h-full">
          <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} />
           <div className="absolute top-4 right-4 z-20 flex gap-2 p-2">
