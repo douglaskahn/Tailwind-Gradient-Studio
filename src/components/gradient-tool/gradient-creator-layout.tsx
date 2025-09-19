@@ -53,10 +53,10 @@ export default function GradientCreatorLayout({
   // Desktop layout: two columns, right sidebar scrolls
   return (
     <div className="flex-1 w-full grid grid-cols-[1fr_340px]">
-      <div className="relative py-4 pr-4">
+      <div className="relative py-4 px-4">
         <div className="sticky top-4 h-[500px]">
           <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
-            <div className="absolute top-4 right-4 z-20 flex gap-2">
+            <div className="absolute top-4 right-8 z-20 flex gap-2">
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 text-white hover:text-white">
