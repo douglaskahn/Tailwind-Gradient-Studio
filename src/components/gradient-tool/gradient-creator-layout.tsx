@@ -66,7 +66,7 @@ export default function GradientCreatorLayout({
       <ScrollArea className="h-screen">
         <div className="flex flex-col min-h-full">
             <Header />
-            <main className="relative flex-grow py-16 px-8 h-full">
+            <main className="relative flex-grow px-8 pb-16 h-full">
                 <div className="sticky top-0 h-[500px]">
                 <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
                 <div className="absolute top-4 right-8 z-20 flex gap-2">
