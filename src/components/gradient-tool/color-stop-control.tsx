@@ -44,7 +44,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
   const isPaletteColor = !isBlack && !isWhite;
 
   return (
-    <div className="space-y-2 p-4 rounded-lg border bg-background/50">
+    <div className="space-y-1.5 p-3 rounded-lg border bg-background/50">
       <div className='flex items-center justify-between gap-4'>
           <div className='flex items-center gap-4'>
             <div className="flex items-center gap-2">
@@ -132,7 +132,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           max={100}
           step={1}
           value={[colorStop.color.l]}
-          onValueChange={value => handleColorChange({ l: value[0] })}
+          onValue-change={value => handleColorChange({ l: value[0] })}
           disabled={isBlack || isWhite}
         />
       </div>
