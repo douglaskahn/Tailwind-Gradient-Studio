@@ -51,7 +51,7 @@ export default function GradientCreatorLayout({
 
   // Desktop layout: two columns, right sidebar scrolls
   return (
-    <div className="flex-1 w-full grid grid-cols-[1fr_400px]">
+    <div className="flex-1 w-full grid grid-cols-[1fr_385px]">
       <div className="relative w-full h-full">
          <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} />
           <div className="absolute top-4 right-4 z-20 flex gap-2 p-2">
@@ -75,7 +75,7 @@ export default function GradientCreatorLayout({
       </div>
       
       <ScrollArea className="h-screen bg-black/5 backdrop-blur-lg border-l border-white/20 shadow-lg">
-        <div className="p-8 space-y-8">
+        <div className="p-2 space-y-8">
             <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
             <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
             <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
