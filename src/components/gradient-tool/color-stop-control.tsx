@@ -14,6 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { cn } from '@/lib/utils';
 
 
 type ColorStopControlProps = {
@@ -38,42 +39,69 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
   const hexValue = hslToHex(colorStop.color.h, colorStop.color.s, colorStop.color.l);
   const rgbValue = hslToRgb(colorStop.color.h, colorStop.color.s, colorStop.color.l);
 
+  const isBlack = colorStop.tailwindName === 'black';
+  const isWhite = colorStop.tailwindName === 'white';
+  const isPaletteColor = !isBlack && !isWhite;
+
   return (
     <div className="space-y-4 p-4 rounded-lg border bg-background/50">
-      <Popover>
-        <div className='flex items-center justify-between gap-4'>
-            <div className='flex items-center gap-4'>
-               <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <PopoverTrigger asChild>
-                       <button
-                          className="w-10 h-10 rounded-md border-2 border-white/50 shadow-inner focus:outline-none focus:ring-2 focus:ring-ring"
-                          style={{ backgroundColor: hexValue }}
-                          aria-label="Open Tailwind Palette"
-                        />
-                    </PopoverTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Open Tailwind Palette</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+      <div className='flex items-center justify-between gap-4'>
+          <div className='flex items-center gap-4'>
+            <div className="flex items-center gap-2">
+              <Popover>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <PopoverTrigger asChild>
+                        <button
+                            className={cn(
+                              "w-10 h-10 rounded-md border-2 border-white/50 shadow-inner focus:outline-none",
+                              isPaletteColor && "ring-2 ring-ring"
+                            )}
+                            style={{ backgroundColor: hexValue }}
+                            aria-label="Open Tailwind Palette"
+                          />
+                      </PopoverTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Open Tailwind Palette</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
 
-              <div className='flex flex-col'>
-                <h4 className="font-medium">{label}</h4>
-                <div className='text-xs text-muted-foreground space-x-2 font-mono'>
-                    <span>{hexValue.toUpperCase()}</span>
-                    <span>{`rgb(${rgbValue.r}, ${rgbValue.g}, ${rgbValue.b})`}</span>
-                </div>
+                <PopoverContent className="w-auto p-0">
+                    <TailwindColorPalette onColorSelect={handlePaletteSelect} selectedColorName={colorStop.tailwindName} />
+                </PopoverContent>
+              </Popover>
+
+              <button
+                className={cn(
+                  "w-6 h-6 rounded-sm border-2 bg-white shadow-inner",
+                  isWhite && "ring-2 ring-ring"
+                )}
+                onClick={() => handlePaletteSelect({ h: 0, s: 0, l: 100 }, 'white')}
+                aria-label="Select white"
+              />
+              <button
+                className={cn(
+                  "w-6 h-6 rounded-sm border-2 bg-black shadow-inner",
+                  isBlack && "ring-2 ring-ring"
+                )}
+                onClick={() => handlePaletteSelect({ h: 0, s: 0, l: 0 }, 'black')}
+                aria-label="Select black"
+              />
+            </div>
+
+            <div className='flex flex-col'>
+              <h4 className="font-medium">{label}</h4>
+              <div className='text-xs text-muted-foreground space-x-2 font-mono'>
+                  <span>{hexValue.toUpperCase()}</span>
+                  <span>{`rgb(${rgbValue.r}, ${rgbValue.g}, ${rgbValue.b})`}</span>
               </div>
             </div>
-        </div>
-        <PopoverContent className="w-[480px] p-2">
-            <TailwindColorPalette onColorSelect={handlePaletteSelect} selectedColorName={colorStop.tailwindName} />
-        </PopoverContent>
-      </Popover>
-
+          </div>
+      </div>
+      
       {colorStop.tailwindName && <div className='text-sm text-muted-foreground font-medium pt-2'>Tailwind Color: <span className='font-mono p-1 bg-muted rounded-sm'>{colorStop.tailwindName}</span></div>}
 
       <div className="space-y-2">
@@ -87,6 +115,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           step={1}
           value={[colorStop.color.h]}
           onValueChange={value => handleColorChange({ h: value[0] })}
+          disabled={isBlack || isWhite}
         />
       </div>
       <div className="space-y-2">
@@ -100,6 +129,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           step={1}
           value={[colorStop.color.s]}
           onValueChange={value => handleColorChange({ s: value[0] })}
+          disabled={isBlack || isWhite}
         />
       </div>
       <div className="space-y-2">
@@ -113,6 +143,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           step={1}
           value={[colorStop.color.l]}
           onValueChange={value => handleColorChange({ l: value[0] })}
+          disabled={isBlack || isWhite}
         />
       </div>
        <div className="space-y-2">
