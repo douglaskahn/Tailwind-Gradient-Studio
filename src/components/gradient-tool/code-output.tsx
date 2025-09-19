@@ -39,25 +39,20 @@ const generateTailwindCss = (primaryGradient: PrimaryGradient, overlayGradient: 
     const primaryGradientCss = `linear-gradient(${primaryGradient.angle}deg, ${primaryStops})`;
     const overlayGradientCss = `linear-gradient(${overlayGradient.angle}deg, ${overlayStops})`;
 
-    return `bg-[${primaryGradientCss},${overlayGradientCss}] bg-blend-${overlayGradient.blendMode}`;
+    return `bg-[image:var(--tw-gradient-stops)] bg-[${primaryGradientCss},${overlayGradientCss}] bg-blend-${overlayGradient.blendMode}`;
   }
 
-  const primaryStops = primaryGradient.colorStops
-    .map(s => `from-${s.tailwindName}`)
-    .join(' ');
-  const viaStops = primaryGradient.colorStops
-    .slice(1, -1)
-    .map(s => `via-${s.tailwindName}`)
-    .join(' ');
-  const toStops = primaryGradient.colorStops
-    .slice(-1)
-    .map(s => `to-${s.tailwindName}`)
-    .join(' ');
-  
-  const primaryClasses = `${primaryStops} ${viaStops} ${toStops}`;
+  const fromStop = primaryGradient.colorStops[0];
+  const toStop = primaryGradient.colorStops[primaryGradient.colorStops.length - 1];
+  const viaStops = primaryGradient.colorStops.slice(1, -1);
+
+  const primaryClasses = `from-${fromStop.tailwindName} ${viaStops.map(s => `via-${s.tailwindName}`).join(' ')} to-${toStop.tailwindName}`;
 
    const overlayStopsArbitrary = overlayGradient.colorStops
       .map(s => {
+        if (s.tailwindName) {
+           return `${s.tailwindName}/${overlayGradient.opacity * 100} ${s.position}%`;
+        }
         const { r, g, b } = hslToRgb(s.color.h, s.color.s, s.color.l);
         return `rgba(${r},${g},${b},${overlayGradient.opacity}) ${s.position}%`;
       })
