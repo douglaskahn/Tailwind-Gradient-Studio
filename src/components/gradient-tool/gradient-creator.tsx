@@ -59,10 +59,10 @@ export default function GradientCreator() {
       </div>
       
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <div className="space-y-8">
-            <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
-            <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+              <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
+              <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
           </div>
           <div>
             <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
