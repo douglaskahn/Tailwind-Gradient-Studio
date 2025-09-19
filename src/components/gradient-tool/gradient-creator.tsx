@@ -4,8 +4,6 @@
 import { useState } from 'react';
 import type { PrimaryGradient, OverlayGradient } from '@/lib/types';
 import GradientCreatorLayout from './gradient-creator-layout';
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
 
 export default function GradientCreator() {
   const [primaryGradient, setPrimaryGradient] = useState<PrimaryGradient>({
@@ -33,8 +31,6 @@ export default function GradientCreator() {
         setPrimaryGradient={setPrimaryGradient}
         overlayGradient={overlayGradient}
         setOverlayGradient={setOverlayGradient}
-        Header={Header}
-        Footer={Footer}
     />
   );
 }
