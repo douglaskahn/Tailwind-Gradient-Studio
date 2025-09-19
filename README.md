@@ -1,5 +1,267 @@
-# Firebase Studio
+# **App Name**: Tailwind Gradient Studio
 
-This is a NextJS starter in Firebase Studio.
+## Core Features:
 
-To get started, take a look at src/app/page.tsx.
+- Primary Gradient Designer: A tool to configure a three-color CSS gradient with options for hue, saturation, and lightness.
+- Overlay Gradient Designer: A tool to configure a two-color CSS gradient that overlays the primary gradient with options for blend mode and opacity.
+- Code Generation Tool: Generates and displays the Tailwind CSS, standard CSS, and RGB code snippets corresponding to the selected gradients, providing helpful info. The tool may or may not decide to add/remove browser-specific prefixes.
+- Copy to Clipboard: Provides "one-click" buttons to copy the generated Tailwind CSS, CSS, and RGB codes to the clipboard.
+- Project Showcase Section: Display previous web design projects, built on Next.js to impress the site user.
+- Contact and Socials Section: Includes sections to list the site owner contact and socials handles for future colaboration with the site user.
+
+## Style Guidelines:
+
+- Primary color: Teal (#008080) to evoke a sense of sophistication and calm. This might usually be too obvious for many web apps, but seems correct given the specific focus on Tailwind CSS.
+- Background color: Very light teal (#F0FFFF) creates a clean, calming backdrop.
+- Accent color: Yellow-orange (#FFB347) for a contrasting highlight to guide user actions.
+- Font pairing: 'Space Grotesk' (sans-serif) for headlines and 'Inter' (sans-serif) for body text.
+- Use minimalist, line-based icons to maintain a clean and modern aesthetic, focused on design and style.
+- Employ a card-based layout with 'glassmorphism' effects to highlight content and provide depth. Elements such as boxes will have blurred transparency.
+- Incorporate subtle transitions and animations on user interactions (e.g., button hover effects) to provide feedback.
+
+## Tailwind Colors
+
+| Color Name | Hex | RGB |
+| --- | --- | --- |
+| neutral-50 | #fafafa | 250, 250, 250 |
+| neutral-100 | #f5f5f5 | 245, 245, 245 |
+| neutral-200 | #e5e5e5 | 229, 229, 229 |
+| neutral-300 | #d4d4d4 | 212, 212, 212 |
+| neutral-400 | #a3a3a3 | 163, 163, 163 |
+| neutral-500 | #737373 | 115, 115, 115 |
+| neutral-600 | #525252 | 82, 82, 82 |
+| neutral-700 | #404040 | 64, 64, 64 |
+| neutral-800 | #262626 | 38, 38, 38 |
+| neutral-900 | #171717 | 23, 23, 23 |
+| neutral-950 | #0a0a0a | 10, 10, 10 |
+| stone-50 | #fafaf9 | 250, 250, 249 |
+| stone-100 | #f5f5f4 | 245, 245, 244 |
+| stone-200 | #e7e5e4 | 231, 229, 228 |
+| stone-300 | #d6d3d1 | 214, 211, 209 |
+| stone-400 | #a8a29e | 168, 162, 158 |
+| stone-500 | #78716c | 120, 113, 108 |
+| stone-600 | #57534e | 87, 83, 78 |
+| stone-700 | #44403c | 68, 64, 60 |
+| stone-800 | #292524 | 41, 37, 36 |
+| stone-900 | #1c1917 | 28, 25, 23 |
+| stone-950 | #0c0a09 | 12, 10, 9 |
+| zinc-50 | #fafafa | 250, 250, 250 |
+| zinc-100 | #f4f4f5 | 244, 244, 245 |
+| zinc-200 | #e4e4e7 | 228, 228, 231 |
+| zinc-300 | #d4d4d8 | 212, 212, 216 |
+| zinc-400 | #a1a1aa | 161, 161, 170 |
+| zinc-500 | #71717a | 113, 113, 122 |
+| zinc-600 | #52525b | 82, 82, 91 |
+| zinc-700 | #3f3f46 | 63, 63, 70 |
+| zinc-800 | #27272a | 39, 39, 42 |
+| zinc-900 | #18181b | 24, 24, 27 |
+| zinc-950 | #09090b | 9, 9, 11 |
+| slate-50 | #f8fafc | 248, 250, 252 |
+| slate-100 | #f1f5f9 | 241, 245, 249 |
+| slate-200 | #e2e8f0 | 226, 232, 240 |
+| slate-300 | #cbd5e1 | 203, 213, 225 |
+| slate-400 | #94a3b8 | 148, 163, 184 |
+| slate-500 | #64748b | 100, 116, 139 |
+| slate-600 | #475569 | 71, 85, 105 |
+| slate-700 | #334155 | 51, 65, 85 |
+| slate-800 | #1e293b | 30, 41, 59 |
+| slate-900 | #0f172a | 15, 23, 42 |
+| slate-950 | #020617 | 2, 6, 23 |
+| gray-50 | #f9fafb | 249, 250, 251 |
+| gray-100 | #f3f4f6 | 243, 244, 246 |
+| gray-200 | #e5e7eb | 229, 231, 235 |
+| gray-300 | #d1d5db | 209, 213, 219 |
+| gray-400 | #9ca3af | 156, 163, 175 |
+| gray-500 | #6b7280 | 107, 114, 128 |
+| gray-600 | #4b5563 | 75, 85, 99 |
+| gray-700 | #374151 | 55, 65, 81 |
+| gray-800 | #1f2937 | 31, 41, 55 |
+| gray-900 | #111827 | 17, 24, 39 |
+| gray-950 | #030712 | 3, 7, 18 |
+| red-50 | #fef2f2 | 254, 242, 242 |
+| red-100 | #fee2e2 | 254, 226, 226 |
+| red-200 | #fecaca | 254, 202, 202 |
+| red-300 | #fca5a5 | 252, 165, 165 |
+| red-400 | #f87171 | 248, 113, 113 |
+| red-500 | #ef4444 | 239, 68, 68 |
+| red-600 | #dc2626 | 220, 38, 38 |
+| red-700 | #b91c1c | 185, 28, 28 |
+| red-800 | #991b1b | 153, 27, 27 |
+| red-900 | #7f1d1d | 127, 29, 29 |
+| red-950 | #450a0a | 69, 10, 10 |
+| orange-50 | #fff7ed | 255, 247, 237 |
+| orange-100 | #ffedd5 | 255, 237, 213 |
+| orange-200 | #fed7aa | 254, 215, 170 |
+| orange-300 | #fdba74 | 253, 186, 116 |
+| orange-400 | #fb923c | 251, 146, 60 |
+| orange-500 | #f97316 | 249, 115, 22 |
+| orange-600 | #ea580c | 234, 88, 12 |
+| orange-700 | #c2410c | 194, 65, 12 |
+| orange-800 | #9a3412 | 154, 52, 18 |
+| orange-900 | #7c2d12 | 124, 45, 18 |
+| orange-950 | #431407 | 67, 20, 7 |
+| amber-50 | #fffbeb | 255, 251, 235 |
+| amber-100 | #fef3c7 | 254, 243, 199 |
+| amber-200 | #fde68a | 253, 230, 138 |
+| amber-300 | #fcd34d | 252, 211, 77 |
+| amber-400 | #fbbf24 | 251, 191, 36 |
+| amber-500 | #f59e0b | 245, 158, 11 |
+| amber-600 | #d97706 | 217, 119, 6 |
+| amber-700 | #b45309 | 180, 83, 9 |
+| amber-800 | #92400e | 146, 64, 14 |
+| amber-900 | #78350f | 120, 53, 15 |
+| amber-950 | #451a03 | 69, 26, 3 |
+| yellow-50 | #fefce8 | 254, 252, 232 |
+| yellow-100 | #fef9c3 | 254, 249, 195 |
+| yellow-200 | #fef08a | 254, 240, 138 |
+| yellow-300 | #fde047 | 253, 224, 71 |
+| yellow-400 | #facc15 | 250, 204, 21 |
+| yellow-500 | #eab308 | 234, 179, 8 |
+| yellow-600 | #ca8a04 | 202, 138, 4 |
+| yellow-700 | #a16207 | 161, 98, 7 |
+| yellow-800 | #854d0e | 133, 77, 14 |
+| yellow-900 | #713f12 | 113, 63, 18 |
+| yellow-950 | #422006 | 66, 32, 6 |
+| lime-50 | #f7fee7 | 247, 254, 231 |
+| lime-100 | #ecfccb | 236, 252, 203 |
+| lime-200 | #d9f99d | 217, 249, 157 |
+| lime-300 | #bef264 | 190, 242, 100 |
+| lime-400 | #a3e635 | 163, 230, 53 |
+| lime-500 | #84cc16 | 132, 204, 22 |
+| lime-600 | #65a30d | 101, 163, 13 |
+| lime-700 | #4d7c0f | 77, 124, 15 |
+| lime-800 | #3f6212 | 63, 98, 18 |
+| lime-900 | #365314 | 54, 83, 20 |
+| lime-950 | #1a2e05 | 26, 46, 5 |
+| green-50 | #f0fdf4 | 240, 253, 244 |
+| green-100 | #dcfce7 | 220, 252, 231 |
+| green-200 | #bbf7d0 | 187, 247, 208 |
+| green-300 | #86efac | 134, 239, 172 |
+| green-400 | #4ade80 | 74, 222, 128 |
+| green-500 | #22c55e | 34, 197, 94 |
+| green-600 | #16a34a | 22, 163, 74 |
+| green-700 | #15803d | 21, 128, 61 |
+| green-800 | #166534 | 22, 101, 52 |
+| green-900 | #14532d | 20, 83, 45 |
+| green-950 | #052e16 | 5, 46, 22 |
+| emerald-50 | #ecfdf5 | 236, 253, 245 |
+| emerald-100 | #d1fae5 | 209, 250, 229 |
+| emerald-200 | #a7f3d0 | 167, 243, 208 |
+| emerald-300 | #6ee7b7 | 110, 231, 183 |
+| emerald-400 | #34d399 | 52, 211, 153 |
+| emerald-500 | #10b981 | 16, 185, 129 |
+| emerald-600 | #059669 | 5, 150, 105 |
+| emerald-700 | #047857 | 4, 120, 87 |
+| emerald-800 | #065f46 | 6, 95, 70 |
+| emerald-900 | #064e3b | 6, 78, 59 |
+| emerald-950 | #022c22 | 2, 44, 34 |
+| teal-50 | #f0fdfa | 240, 253, 250 |
+| teal-100 | #ccfbf1 | 204, 251, 241 |
+| teal-200 | #99f6e4 | 153, 246, 228 |
+| teal-300 | #5eead4 | 94, 234, 212 |
+| teal-400 | #2dd4bf | 45, 212, 191 |
+| teal-500 | #14b8a6 | 20, 184, 166 |
+| teal-600 | #0d9488 | 13, 148, 136 |
+| teal-700 | #0f766e | 15, 118, 110 |
+| teal-800 | #115e59 | 17, 94, 89 |
+| teal-900 | #134e4a | 19, 78, 74 |
+| teal-950 | #042f2e | 4, 47, 46 |
+| cyan-50 | #ecfeff | 236, 254, 255 |
+| cyan-100 | #cffafe | 207, 250, 254 |
+| cyan-200 | #a5f3fc | 165, 243, 252 |
+| cyan-300 | #67e8f9 | 103, 232, 249 |
+| cyan-400 | #22d3ee | 34, 211, 238 |
+| cyan-500 | #06b6d4 | 6, 182, 212 |
+| cyan-600 | #0891b2 | 8, 145, 178 |
+| cyan-700 | #0e7490 | 14, 116, 144 |
+| cyan-800 | #155e75 | 21, 94, 117 |
+| cyan-900 | #164e63 | 22, 78, 99 |
+| cyan-950 | #083344 | 8, 51, 68 |
+| sky-50 | #f0f9ff | 240, 249, 255 |
+| sky-100 | #e0f2fe | 224, 242, 254 |
+| sky-200 | #bae6fd | 186, 230, 253 |
+| sky-300 | #7dd3fc | 125, 211, 252 |
+| sky-400 | #38bdf8 | 56, 189, 248 |
+| sky-500 | #0ea5e9 | 14, 165, 233 |
+| sky-600 | #0284c7 | 2, 132, 199 |
+| sky-700 | #0369a1 | 3, 105, 161 |
+| sky-800 | #075985 | 7, 89, 133 |
+| sky-900 | #0c4a6e | 12, 74, 110 |
+| sky-950 | #082f49 | 8, 47, 73 |
+| blue-50 | #eff6ff | 239, 246, 255 |
+| blue-100 | #dbeafe | 219, 234, 254 |
+| blue-200 | #bfdbfe | 191, 219, 254 |
+| blue-300 | #93c5fd | 147, 197, 253 |
+| blue-400 | #60a5fa | 96, 165, 250 |
+| blue-500 | #3b82f6 | 59, 130, 246 |
+| blue-600 | #2563eb | 37, 99, 235 |
+| blue-700 | #1d4ed8 | 29, 78, 216 |
+| blue-800 | #1e40af | 30, 64, 175 |
+| blue-900 | #1e3a8a | 30, 58, 138 |
+| blue-950 | #172554 | 23, 37, 84 |
+| indigo-50 | #eef2ff | 238, 242, 255 |
+| indigo-100 | #e0e7ff | 224, 231, 255 |
+| indigo-200 | #c7d2fe | 199, 210, 254 |
+| indigo-300 | #a5b4fc | 165, 180, 252 |
+| indigo-400 | #818cf8 | 129, 140, 248 |
+| indigo-500 | #6366f1 | 99, 102, 241 |
+| indigo-600 | #4f46e5 | 79, 70, 229 |
+| indigo-700 | #4338ca | 67, 56, 202 |
+| indigo-800 | #3730a3 | 55, 48, 163 |
+| indigo-900 | #312e81 | 49, 46, 129 |
+| indigo-950 | #1e1b4b | 30, 27, 75 |
+| violet-50 | #f5f3ff | 245, 243, 255 |
+| violet-100 | #ede9fe | 237, 233, 254 |
+| violet-200 | #ddd6fe | 221, 214, 254 |
+| violet-300 | #c4b5fd | 196, 181, 253 |
+| violet-400 | #a78bfa | 167, 139, 250 |
+| violet-500 | #8b5cf6 | 139, 92, 246 |
+| violet-600 | #7c3aed | 124, 58, 237 |
+| violet-700 | #6d28d9 | 109, 40, 217 |
+| violet-800 | #5b21b6 | 91, 33, 182 |
+| violet-900 | #4c1d95 | 76, 29, 149 |
+| violet-950 | #2e1065 | 46, 16, 101 |
+| purple-50 | #faf5ff | 250, 245, 255 |
+| purple-100 | #f3e8ff | 243, 232, 255 |
+| purple-200 | #e9d5ff | 233, 213, 255 |
+| purple-300 | #d8b4fe | 216, 180, 254 |
+| purple-400 | #c084fc | 192, 132, 252 |
+| purple-500 | #a855f7 | 168, 85, 247 |
+| purple-600 | #9333ea | 147, 51, 234 |
+| purple-700 | #7e22ce | 126, 34, 206 |
+| purple-800 | #6b21a8 | 107, 33, 168 |
+| purple-900 | #581c87 | 88, 28, 135 |
+| purple-950 | #3b0764 | 59, 7, 100 |
+| fuchsia-50 | #fdf4ff | 253, 244, 255 |
+| fuchsia-100 | #fae8ff | 250, 232, 255 |
+| fuchsia-200 | #f5d0fe | 245, 208, 254 |
+| fuchsia-300 | #f0abfc | 240, 171, 252 |
+| fuchsia-400 | #e879f9 | 232, 121, 249 |
+| fuchsia-500 | #d946ef | 217, 70, 239 |
+| fuchsia-600 | #c026d3 | 192, 38, 211 |
+| fuchsia-700 | #a21caf | 162, 28, 175 |
+| fuchsia-800 | #86198f | 134, 25, 143 |
+| fuchsia-900 | #701a75 | 112, 26, 117 |
+| fuchsia-950 | #4a044e | 74, 4, 78 |
+| pink-50 | #fdf2f8 | 253, 242, 248 |
+| pink-100 | #fce7f3 | 252, 231, 243 |
+| pink-200 | #fbcfe8 | 251, 207, 232 |
+| pink-300 | #f9a8d4 | 249, 168, 212 |
+| pink-400 | #f472b6 | 244, 114, 182 |
+| pink-500 | #ec4899 | 236, 72, 153 |
+| pink-600 | #db2777 | 219, 39, 119 |
+| pink-700 | #be185d | 190, 24, 93 |
+| pink-800 | #9d174d | 157, 23, 77 |
+| pink-900 | #831843 | 131, 24, 67 |
+| pink-950 | #500724 | 80, 7, 36 |
+| rose-50 | #fff1f2 | 255, 241, 242 |
+| rose-100 | #ffe4e6 | 255, 228, 230 |
+| rose-200 | #fecdd3 | 254, 205, 211 |
+| rose-300 | #fda4af | 253, 164, 175 |
+| rose-400 | #fb7185 | 251, 113, 133 |
+| rose-500 | #f43f5e | 244, 63, 94 |
+| rose-600 | #e11d48 | 225, 29, 72 |
+| rose-700 | #be123c | 190, 18, 60 |
+| rose-800 | #9f1239 | 159, 18, 57 |
+| rose-900 | #881337 | 136, 19, 55 |
+| rose-950 | #4c0519 | 76, 5, 25 |

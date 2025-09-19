@@ -1,7 +1,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
-import { Inter, Space_Grotesk } from 'next/font/google';
+import { Inter, Source_Sans_3 } from 'next/font/google';
 import { cn } from '@/lib/utils';
 
 const inter = Inter({
@@ -9,9 +9,10 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const sourceSans3 = Source_Sans_3({
   subsets: ['latin'],
-  variable: '--font-space-grotesk',
+  weight: ['400', '700'],
+  variable: '--font-headline',
 });
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning className={cn("font-body antialiased", inter.variable, spaceGrotesk.variable)}>
+      <body suppressHydrationWarning className={cn("font-body antialiased", inter.variable, sourceSans3.variable)}>
         {children}
         <Toaster />
       </body>
