@@ -32,7 +32,7 @@ export default function GradientCreator() {
   });
 
   return (
-    <section id="gradient-creator" className="space-y-8">
+    <section id="gradient-creator">
       <div className="sticky top-0 z-30 bg-background/80 backdrop-blur-sm border-b">
          <div className="relative container mx-auto px-4 py-4">
             <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
@@ -58,7 +58,7 @@ export default function GradientCreator() {
           </div>
       </div>
       
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 py-8">
         <div className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
               <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
