@@ -77,7 +77,7 @@ export default function GradientCreatorLayout({
         </div>
       </div>
       
-      <ScrollArea className="h-screen sticky top-0 bg-black/5 backdrop-blur-lg border-l border-white/20 shadow-lg">
+      <ScrollArea className="h-screen sticky top-0 backdrop-blur-lg border-l border-white/20 shadow-lg">
         <div className="space-y-8">
             <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
             <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
