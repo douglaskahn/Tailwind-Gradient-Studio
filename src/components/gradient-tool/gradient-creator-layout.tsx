@@ -62,7 +62,7 @@ export default function GradientCreatorLayout({
 
   // Desktop layout: two columns, right sidebar scrolls
   return (
-    <div className="grid grid-cols-[1fr_400px] h-screen">
+    <div className="grid grid-cols-[1fr_340px] h-screen">
       <ScrollArea className="h-screen">
         <div className="flex flex-col min-h-full">
             <Header />
