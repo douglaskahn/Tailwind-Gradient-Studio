@@ -23,8 +23,8 @@ export default function GradientPreview({ primaryGradient, overlayGradient, isMo
 
   return (
     <div className={cn(
-        "w-full h-80 overflow-hidden relative",
-        isModal ? "h-[80vh] rounded-lg" : "rounded-xl shadow-2xl"
+        "relative",
+        isModal ? "h-[80vh] rounded-lg" : "absolute inset-0"
     )}>
        <div
         className="absolute inset-0"
