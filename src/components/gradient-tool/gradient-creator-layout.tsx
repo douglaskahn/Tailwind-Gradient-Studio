@@ -13,8 +13,8 @@ import PrimaryGradientDesigner from './primary-gradient-designer';
 import OverlayGradientDesigner from './overlay-gradient-designer';
 import CodeOutput from './code-output';
 import { ScrollArea } from '../ui/scroll-area';
-import Header from '../layout/header';
 import Footer from '../layout/footer';
+import Header from '../layout/header';
 
 type GradientCreatorLayoutProps = {
     primaryGradient: PrimaryGradient;
@@ -57,10 +57,10 @@ export default function GradientCreatorLayout({
   // Desktop layout: two columns, right sidebar scrolls
   return (
     <div className="flex-1 w-full grid grid-cols-[1fr_340px]">
-      <div className="flex flex-col">
-        <Header />
-        <div className="relative py-4 px-4 flex-grow">
-            <div className="sticky top-4 h-[500px]">
+        <div className="flex flex-col">
+            <Header />
+            <main className="relative py-4 px-4 flex-grow">
+              <div className="sticky top-16 h-[500px]">
                 <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
                 <div className="absolute top-4 right-8 z-20 flex gap-2">
                 <Dialog>
@@ -80,18 +80,18 @@ export default function GradientCreatorLayout({
                     </DialogContent>
                 </Dialog>
                 </div>
+              </div>
+            </main>
+            <Footer />
+        </div>
+        
+        <ScrollArea className="h-screen sticky top-0 border-l border-white/20 shadow-lg">
+            <div className="space-y-8 p-3.5">
+                <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
+                <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
+                <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
             </div>
-        </div>
-        <Footer />
-      </div>
-      
-      <ScrollArea className="h-screen sticky top-0 border-l border-white/20 shadow-lg">
-        <div className="space-y-8 p-3.5">
-            <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
-            <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
-            <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
-        </div>
-      </ScrollArea>
+        </ScrollArea>
     </div>
   );
 }
