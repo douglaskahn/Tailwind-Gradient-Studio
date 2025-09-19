@@ -1,7 +1,7 @@
 
 "use client";
 
-import type { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction, ComponentType } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHasMounted } from '@/hooks/use-has-mounted';
 import type { PrimaryGradient, OverlayGradient } from '@/lib/types';
@@ -19,40 +19,56 @@ type GradientCreatorLayoutProps = {
     setPrimaryGradient: Dispatch<SetStateAction<PrimaryGradient>>;
     overlayGradient: OverlayGradient;
     setOverlayGradient: Dispatch<SetStateAction<OverlayGradient>>;
+    Header: ComponentType;
+    Footer: ComponentType;
 };
 
 export default function GradientCreatorLayout({ 
     primaryGradient, 
     setPrimaryGradient, 
     overlayGradient, 
-    setOverlayGradient 
+    setOverlayGradient,
+    Header,
+    Footer,
 }: GradientCreatorLayoutProps) {
   const hasMounted = useHasMounted();
   const isMobile = useIsMobile();
 
   if (!hasMounted) {
-    return null; // or a loading spinner
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow"/>
+        <Footer />
+      </div>
+    );
   }
 
   if (isMobile) {
     // Mobile layout: single column, everything scrolls
     return (
-      <div className="flex-1 w-full p-4 space-y-8">
-          <div className="relative w-full h-[40vh]">
-              <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} />
-          </div>
-          <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
-          <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
-          <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow p-4 space-y-8">
+            <div className="relative w-full h-[40vh]">
+                <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} />
+            </div>
+            <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
+            <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
+            <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
+        </main>
+        <Footer />
       </div>
     );
   }
 
   // Desktop layout: two columns, right sidebar scrolls
   return (
-    <div className="flex-1 w-full grid grid-cols-[1fr_340px]">
-        <div className="relative py-16 px-8">
-            <div className="sticky top-16 h-[500px]">
+    <div className="flex flex-col h-screen">
+      <Header />
+      <main className="flex-1 grid grid-cols-[1fr_340px] overflow-hidden">
+        <div className="relative py-16 px-8 h-full overflow-y-auto">
+            <div className="sticky top-0 h-[500px]">
               <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
               <div className="absolute top-4 right-8 z-20 flex gap-2">
               <Dialog>
@@ -75,13 +91,15 @@ export default function GradientCreatorLayout({
             </div>
         </div>
         
-        <ScrollArea className="h-screen sticky top-0 border-l border-white/20 shadow-lg">
+        <ScrollArea className="h-full border-l border-white/20 shadow-lg">
             <div className="space-y-8 p-3.5">
                 <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
                 <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
                 <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
             </div>
         </ScrollArea>
+      </main>
+      <Footer />
     </div>
   );
 }
