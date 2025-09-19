@@ -47,7 +47,7 @@ export default function OverlayGradientDesigner({ gradient, setGradient }: Overl
       <CardHeader>
         <CardTitle className="font-headline text-2xl">Overlay Gradient</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="p-[0.875rem] space-y-6">
         <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
                 <Label htmlFor="blend-mode">Blend Mode</Label>

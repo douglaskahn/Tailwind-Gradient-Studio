@@ -32,7 +32,7 @@ export default function PrimaryGradientDesigner({ gradient, setGradient }: Prima
       <CardHeader>
         <CardTitle className="font-headline text-2xl">Primary Gradient</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="p-[0.875rem] space-y-6">
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label htmlFor="angle">Angle</Label>
