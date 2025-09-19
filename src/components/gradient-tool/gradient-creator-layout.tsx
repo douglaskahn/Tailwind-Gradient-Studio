@@ -52,30 +52,32 @@ export default function GradientCreatorLayout({
 
   // Desktop layout: two columns, right sidebar scrolls
   return (
-    <div className="flex-1 w-full grid grid-cols-[1fr_340px] h-full">
-      <div className="relative w-full h-full">
-         <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} />
-          <div className="absolute top-4 right-4 z-20 flex gap-2 p-2">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 text-white hover:text-white">
-                  <Eye className="h-5 w-5" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="p-0 border-0 max-w-7xl">
-                  <DialogHeader>
-                  <DialogTitle className="sr-only">Gradient Full-Screen Preview</DialogTitle>
-                  <DialogDescription className="sr-only">
-                    A full-screen preview of the generated gradient.
-                  </DialogDescription>
-                </DialogHeader>
-                <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal />
-              </DialogContent>
-            </Dialog>
-          </div>
+    <div className="flex-1 w-full grid grid-cols-[1fr_340px]">
+      <div className="relative py-4 pr-4">
+        <div className="sticky top-4 h-[500px]">
+          <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
+            <div className="absolute top-4 right-4 z-20 flex gap-2">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 text-white hover:text-white">
+                    <Eye className="h-5 w-5" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="p-0 border-0 max-w-7xl">
+                    <DialogHeader>
+                    <DialogTitle className="sr-only">Gradient Full-Screen Preview</DialogTitle>
+                    <DialogDescription className="sr-only">
+                      A full-screen preview of the generated gradient.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal />
+                </DialogContent>
+              </Dialog>
+            </div>
+        </div>
       </div>
       
-      <ScrollArea className="h-full bg-black/5 backdrop-blur-lg border-l border-white/20 shadow-lg">
+      <ScrollArea className="h-screen sticky top-0 bg-black/5 backdrop-blur-lg border-l border-white/20 shadow-lg">
         <div className="space-y-8">
             <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
             <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />

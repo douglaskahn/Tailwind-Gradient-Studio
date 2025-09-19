@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { hslToHex } from '@/lib/utils';
 import type { PrimaryGradient, OverlayGradient } from '@/lib/types';
@@ -7,9 +8,10 @@ type GradientPreviewProps = {
   primaryGradient: PrimaryGradient;
   overlayGradient: OverlayGradient;
   isModal?: boolean;
+  className?: string;
 };
 
-export default function GradientPreview({ primaryGradient, overlayGradient, isModal = false }: GradientPreviewProps) {
+export default function GradientPreview({ primaryGradient, overlayGradient, isModal = false, className }: GradientPreviewProps) {
   const primaryStops = primaryGradient.colorStops
     .map(s => `${hslToHex(s.color.h, s.color.s, s.color.l)} ${s.position}%`)
     .join(', ');
@@ -23,17 +25,18 @@ export default function GradientPreview({ primaryGradient, overlayGradient, isMo
 
   return (
     <div className={cn(
-        "relative",
-        isModal ? "h-[80vh] rounded-lg" : "absolute inset-0"
+        "relative w-full h-full",
+        isModal ? "h-[80vh] rounded-lg" : "absolute inset-0",
+        className
     )}>
        <div
-        className="absolute inset-0"
+        className="absolute inset-0 w-full h-full"
         style={{
           backgroundImage: primaryCss,
         }}
       />
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 w-full h-full"
         style={{
           backgroundImage: overlayCss,
           mixBlendMode: overlayGradient.blendMode as React.CSSProperties['mixBlendMode'],
