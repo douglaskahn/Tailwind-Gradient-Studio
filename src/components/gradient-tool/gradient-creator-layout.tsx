@@ -38,20 +38,20 @@ export default function GradientCreatorLayout({
 
   if (isMobile) {
     // Mobile layout: single column, everything scrolls
-     return (
-        <div className="flex-1 w-full">
-            <Header />
-            <div className="relative w-full h-[40vh]">
-                <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} />
-            </div>
-            <div className="p-4 space-y-8">
-                <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
-                <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
-                <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
-            </div>
-            <Footer />
-        </div>
-     )
+    return (
+      <div className="flex-1 w-full">
+          <Header />
+          <div className="relative w-full h-[40vh]">
+              <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} />
+          </div>
+          <div className="p-4 space-y-8">
+              <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
+              <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
+              <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
+          </div>
+          <Footer />
+      </div>
+    );
   }
 
   // Desktop layout: two columns, right sidebar scrolls
@@ -86,7 +86,7 @@ export default function GradientCreatorLayout({
       </div>
       
       <ScrollArea className="h-screen sticky top-0 backdrop-blur-lg border-l border-white/20 shadow-lg">
-        <div className="p-3.5 space-y-8">
+        <div className="space-y-8 p-3.5">
             <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
             <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
             <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
@@ -95,3 +95,4 @@ export default function GradientCreatorLayout({
     </div>
   );
 }
+
