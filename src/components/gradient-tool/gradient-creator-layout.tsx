@@ -3,6 +3,7 @@
 
 import type { Dispatch, SetStateAction } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useHasMounted } from '@/hooks/use-has-mounted';
 import type { PrimaryGradient, OverlayGradient } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
@@ -26,10 +27,10 @@ export default function GradientCreatorLayout({
     overlayGradient, 
     setOverlayGradient 
 }: GradientCreatorLayoutProps) {
+  const hasMounted = useHasMounted();
   const isMobile = useIsMobile();
 
-  // Render a placeholder or null on the server and initial client render to avoid hydration mismatch
-  if (isMobile === undefined) {
+  if (!hasMounted) {
     return null;
   }
 
