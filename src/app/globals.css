@@ -58,4 +58,9 @@
     background-image: radial-gradient(circle at top left, hsl(var(--primary) / 0.1), transparent 40%), radial-gradient(circle at bottom right, hsl(var(--accent) / 0.1), transparent 40%);
     background-attachment: fixed;
   }
+  
+  [data-radix-scroll-area-viewport] > div {
+    display: block !important;
+    padding-right: 1rem;
+  }
 }
