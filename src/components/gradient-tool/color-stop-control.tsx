@@ -49,26 +49,16 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           <div className='flex items-center gap-4'>
             <div className="flex items-center gap-2">
               <Popover>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <PopoverTrigger asChild>
-                        <button
-                            className={cn(
-                              "w-10 h-10 rounded-md border-2 border-white/50 shadow-inner focus:outline-none",
-                              isPaletteColor && "ring-2 ring-ring"
-                            )}
-                            style={{ backgroundColor: hexValue }}
-                            aria-label="Open Tailwind Palette"
-                          />
-                      </PopoverTrigger>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Open Tailwind Palette</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-
+                  <PopoverTrigger asChild>
+                    <button
+                        className={cn(
+                          "w-10 h-10 rounded-md border-2 border-white/50 shadow-inner focus:outline-none",
+                          isPaletteColor && "ring-2 ring-ring"
+                        )}
+                        style={{ backgroundColor: hexValue }}
+                        aria-label="Open Tailwind Palette"
+                      />
+                  </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
                     <TailwindColorPalette onColorSelect={handlePaletteSelect} selectedColorName={colorStop.tailwindName} />
                 </PopoverContent>
