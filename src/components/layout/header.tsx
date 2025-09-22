@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function Header() {
   return (
-    <header className="py-6 text-center md:text-left px-4">
+    <header className="py-6 text-center md:text-left px-8">
       <h1 className="font-headline text-4xl font-bold tracking-tight text-primary md:text-5xl">
         Tailwind Gradient Studio
       </h1>
