@@ -108,3 +108,7 @@
 .bg-background\/50 {
     background-color: hsl(0deg 0% 0% / 49%);
 }
+
+.bg-popover {
+    background-color: hsl(206.57deg 53.15% 19.98% / 60%);
+}
