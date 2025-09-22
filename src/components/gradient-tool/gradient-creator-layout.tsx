@@ -65,9 +65,7 @@ export default function GradientCreatorLayout({
     <div className="grid grid-cols-[1fr_340px]">
       <div className="relative">
         <div className="px-8">
-          <div className="pt-6">
-              <Header />
-          </div>
+          <Header />
           <div className="sticky top-0 z-10 h-[500px] pt-6">
               <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
               <div className="absolute top-10 right-4 z-20 flex gap-2">
@@ -95,8 +93,8 @@ export default function GradientCreatorLayout({
         </div>
       </div>
       
-      <div className="h-[calc(100vh-1rem)] m-2">
-        <ScrollArea className="h-full dark-theme-glass rounded-lg">
+      <div className="sticky top-0 h-screen">
+        <ScrollArea className="dark-theme-glass h-full rounded-lg m-2">
             <div className="space-y-8 p-3.5">
                 <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
                 <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
