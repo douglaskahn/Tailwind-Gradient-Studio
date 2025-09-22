@@ -2,17 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .dark-theme-glass {
-    @apply rounded-lg border border-white/20 bg-[rgba(10,10,10,0.2)] shadow-lg;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-  }
-  .dark-theme-glass-inner {
-    @apply rounded-lg border border-white/10 bg-[rgba(255,255,255,0.1)] shadow-md;
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-  }
+.dark-theme-glass {
+  @apply rounded-lg border border-white/20 bg-[rgba(10,10,10,0.2)] shadow-lg;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+.dark-theme-glass-inner {
+  @apply rounded-lg border border-white/10 bg-[rgba(255,255,255,0.1)] shadow-md;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 @layer base {
@@ -40,7 +38,21 @@
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
+    --bg-base-h: 224;
+    --bg-base-s: 71.4%;
+    --bg-base-l: 15%;
+    
+    --bg-gradient-start-h: 217;
+    --bg-gradient-start-s: 91%;
+    --bg-gradient-start-l: 60%;
+    --bg-gradient-start-a: 0.3;
+
+    --bg-gradient-end-h: 275;
+    --bg-gradient-end-s: 92%;
+    --bg-gradient-end-l: 65%;
+    --bg-gradient-end-a: 0.3;
+
+    --background: var(--bg-base-h) var(--bg-base-s) var(--bg-base-l);
     --foreground: 210 20% 98%;
     --card: 224 71.4% 4.1%;
     --card-foreground: 210 20% 98%;
@@ -60,8 +72,8 @@
     --input: 215 27.9% 16.9%;
     --ring: 180 100% 25%;
 
-    --bg-gradient-start: hsl(var(--primary) / 0.1);
-    --bg-gradient-end: hsl(var(--accent) / 0.1);
+    --bg-gradient-start: hsla(var(--bg-gradient-start-h), var(--bg-gradient-start-s), var(--bg-gradient-start-l), var(--bg-gradient-start-a));
+    --bg-gradient-end: hsla(var(--bg-gradient-end-h), var(--bg-gradient-end-s), var(--bg-gradient-end-l), var(--bg-gradient-end-a));
   }
 }
 
