@@ -101,6 +101,6 @@
       background-color: #1681ff17;
   }
   .dark [data-state=active] {
-      background-color: hsl(224deg 15% 52% / 53%);
+      background-color: hsl(224deg 25% 40%);
   }
 }
