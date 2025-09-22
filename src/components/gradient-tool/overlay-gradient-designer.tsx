@@ -43,7 +43,7 @@ export default function OverlayGradientDesigner({ gradient, setGradient }: Overl
   };
 
   return (
-    <Card className="bg-transparent shadow-none border-none">
+    <Card className="dark-theme-glass">
       <CardHeader>
         <CardTitle className="font-headline text-2xl">Overlay Gradient</CardTitle>
       </CardHeader>

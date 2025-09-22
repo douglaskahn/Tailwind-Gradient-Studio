@@ -28,7 +28,7 @@ export default function PrimaryGradientDesigner({ gradient, setGradient }: Prima
   };
 
   return (
-    <Card className="bg-transparent shadow-none border-none">
+    <Card className="dark-theme-glass">
       <CardHeader>
         <CardTitle className="font-headline text-2xl">Primary Gradient</CardTitle>
       </CardHeader>
