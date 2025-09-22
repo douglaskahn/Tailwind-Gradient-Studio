@@ -8,6 +8,11 @@
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
   }
+  .dark-theme-glass-inner {
+    @apply rounded-lg border border-white/10 bg-[rgba(255,255,255,0.05)] shadow-md;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
 }
 
 @layer base {

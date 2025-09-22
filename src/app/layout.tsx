@@ -1,7 +1,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
-import { Inter, Source_Sans_3 } from 'next/font/google';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import { cn } from '@/lib/utils';
 
 const inter = Inter({
@@ -9,7 +9,7 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const sourceSans3 = Source_Sans_3({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   weight: ['400', '700'],
   variable: '--font-headline',
@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body suppressHydrationWarning className={cn("font-body antialiased", inter.variable, sourceSans3.variable)}>
+      <body suppressHydrationWarning className={cn("font-body antialiased", inter.variable, spaceGrotesk.variable)}>
         {children}
         <Toaster />
       </body>
