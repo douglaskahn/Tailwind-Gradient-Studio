@@ -34,7 +34,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 180 100% 25%;
+    --ring: 207 100% 81%;
     --radius: 0.5rem;
   }
 
@@ -54,12 +54,12 @@
     --bg-gradient-end-a: 0.3;
 
     --background: var(--bg-base-h) var(--bg-base-s) var(--bg-base-l);
-    --foreground: 228 35% 84%;
+    --foreground: 228 35% 84% / 0.9;
     --card: 224 71.4% 4.1%;
     --card-foreground: 228 35% 84% / 0.9;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
-    --primary: 208 68% 44%;
+    --primary: 208 68% 44% / 1;
     --primary-foreground: 210 20% 98%;
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
@@ -103,4 +103,8 @@
   .dark [data-state=active] {
     background-color: hsl(224deg 25% 40%) !important;
   }
+}
+
+.bg-background\/50 {
+    background-color: hsl(0deg 0% 0% / 49%);
 }
