@@ -95,7 +95,7 @@ export default function GradientCreatorLayout({
         </div>
       </div>
       
-      <div className="dark-theme-glass m-2">
+      <div className="h-screen dark-theme-glass m-2">
         <ScrollArea className="h-full rounded-lg">
             <div className="space-y-8 p-3.5">
                 <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
