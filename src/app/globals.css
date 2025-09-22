@@ -59,6 +59,9 @@
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
     --ring: 180 100% 25%;
+
+    --bg-gradient-start: hsl(var(--primary) / 0.1);
+    --bg-gradient-end: hsl(var(--accent) / 0.1);
   }
 }
 
@@ -68,7 +71,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: radial-gradient(circle at top left, hsl(var(--primary) / 0.1), transparent 40%), radial-gradient(circle at bottom right, hsl(var(--accent) / 0.1), transparent 40%);
+    background-image: radial-gradient(circle at top left, var(--bg-gradient-start), transparent 40%), radial-gradient(circle at bottom right, var(--bg-gradient-end), transparent 40%);
     background-attachment: fixed;
   }
   
