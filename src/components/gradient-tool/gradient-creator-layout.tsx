@@ -93,13 +93,15 @@ export default function GradientCreatorLayout({
         </div>
       </ScrollArea>
       
-      <ScrollArea className="h-screen border-l border-white/20 shadow-lg">
-          <div className="space-y-8 p-3.5">
-              <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
-              <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
-              <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
-          </div>
-      </ScrollArea>
+      <div className="dark-theme-glass m-2">
+        <ScrollArea className="h-full rounded-lg">
+            <div className="space-y-8 p-3.5">
+                <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
+                <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
+                <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
+            </div>
+        </ScrollArea>
+      </div>
     </div>
   );
 }
