@@ -53,22 +53,22 @@
     --bg-gradient-end-a: 0.3;
 
     --background: var(--bg-base-h) var(--bg-base-s) var(--bg-base-l);
-    --foreground: 210 20% 98%;
+    --foreground: 228 35% 84%;
     --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
+    --card-foreground: 228 35% 84%;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
-    --primary: 180 100% 25%;
-    --primary-foreground: 180 100% 97%;
+    --primary: 208 68% 44%;
+    --primary-foreground: 210 20% 98%;
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
     --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
+    --muted-foreground: 219 20% 77%;
     --accent: 35 100% 63%;
     --accent-foreground: 24 9.8% 10%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 215 27.9% 16.9%;
+    --border: 215 51% 84% / 0.57;
     --input: 215 27.9% 16.9%;
     --ring: 180 100% 25%;
 
@@ -89,5 +89,11 @@
   
   [data-radix-scroll-area-viewport] > div {
     display: block !important;
+  }
+}
+
+@layer components {
+  .text-primary {
+    color: hsl(228 55% 79% / 0.9);
   }
 }
