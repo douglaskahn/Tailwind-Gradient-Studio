@@ -141,7 +141,7 @@ export default function CodeOutput({ primaryGradient, overlayGradient }: CodeOut
   }, [primaryGradient, overlayGradient]);
 
   return (
-    <Card className="rounded-lg bg-white/5 border-white/20">
+    <Card className="rounded-lg bg-white/10 border-white/20">
         <CardHeader>
             <CardTitle className="font-headline text-2xl">Generated Code</CardTitle>
         </CardHeader>
