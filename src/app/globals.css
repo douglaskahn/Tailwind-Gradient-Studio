@@ -71,7 +71,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 215 51% 84% / 0.57;
     --input: 215 27.9% 16.9%;
-    --ring: 180 100% 25%;
+    --ring: 207 100% 81%;
 
     --bg-gradient-start: hsla(var(--bg-gradient-start-h), var(--bg-gradient-start-s), var(--bg-gradient-start-l), var(--bg-gradient-start-a));
     --bg-gradient-end: hsla(var(--bg-gradient-end-h), var(--bg-gradient-end-s), var(--bg-gradient-end-l), var(--bg-gradient-end-a));
@@ -95,7 +95,7 @@
 
 @layer components {
   .text-primary {
-    color: hsl(228 40% 79% / 1);
+    color: hsl(224 44% 87%);
   }
   .dark .dark-theme-glass-inner .dark-theme-glass-inner {
       background-color: #1681ff17;
