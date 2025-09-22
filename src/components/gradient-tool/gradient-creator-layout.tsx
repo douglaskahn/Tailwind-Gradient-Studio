@@ -60,16 +60,16 @@ export default function GradientCreatorLayout({
     );
   }
 
-  // Desktop layout: two columns, right sidebar scrolls
+  // Desktop layout
   return (
-    <div className="grid grid-cols-[1fr_340px] h-screen">
-      <div className="flex flex-col h-full overflow-y-auto">
-        <div className="px-8">
+    <div className="grid grid-cols-[1fr_340px]">
+      <div className="relative">
+        <div className="px-8 pt-6">
             <Header />
         </div>
-        <div className="sticky top-0 z-10 h-[500px] px-8">
+        <div className="sticky top-0 z-10 h-[500px] px-8 pt-6">
             <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
-            <div className="absolute top-4 right-12 z-20 flex gap-2">
+            <div className="absolute top-10 right-12 z-20 flex gap-2">
                 <Dialog>
                 <DialogTrigger asChild>
                     <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 text-white hover:text-white">
@@ -95,8 +95,8 @@ export default function GradientCreatorLayout({
         </div>
       </div>
       
-      <div className="h-screen dark-theme-glass m-2">
-        <ScrollArea className="h-full rounded-lg">
+      <div className="h-screen">
+        <ScrollArea className="h-full dark-theme-glass m-2 rounded-lg">
             <div className="space-y-8 p-3.5">
                 <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
                 <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
