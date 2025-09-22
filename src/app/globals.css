@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -110,5 +111,5 @@
 }
 
 .bg-popover {
-    background-color: hsl(206.57deg 53.15% 19.98% / 60%);
+    background-color: hsl(207deg 53% 20% / 80%);
 }
