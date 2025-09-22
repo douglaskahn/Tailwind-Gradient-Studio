@@ -95,13 +95,15 @@ export default function GradientCreatorLayout({
         </div>
       </div>
       
-      <ScrollArea className="h-screen dark-theme-glass m-2 rounded-lg">
-          <div className="space-y-8 p-3.5">
-              <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
-              <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
-              <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
-          </div>
-      </ScrollArea>
+      <div className="h-[calc(100vh-1rem)] m-2">
+        <ScrollArea className="h-full dark-theme-glass rounded-lg">
+            <div className="space-y-8 p-3.5">
+                <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
+                <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
+                <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
+            </div>
+        </ScrollArea>
+      </div>
     </div>
   );
 }
