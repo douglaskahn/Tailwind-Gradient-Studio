@@ -44,7 +44,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
   const isPaletteColor = !isBlack && !isWhite;
 
   return (
-    <div className="dark-theme-glass-inner space-y-1.5 p-3">
+    <div className="dark-theme-glass-inner p-3">
       <div className='flex items-center justify-between gap-4'>
           <div className='flex items-center gap-4'>
             <div className="flex items-center gap-2">
