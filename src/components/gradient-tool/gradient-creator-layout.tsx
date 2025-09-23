@@ -107,7 +107,7 @@ export default function GradientCreatorLayout({
                   </Dialog>
               </div>
           </div>
-          <div className="h-[1000px]"><!-- This is just for testing scroll on desktop --></div>
+          <div className="h-[1000px]">{/* This is just for testing scroll on desktop */}</div>
           <Footer />
         </div>
       </div>
