@@ -11,7 +11,10 @@ See the site currently deployed on Vercel:
 - Copy to Clipboard: Provides "one-click" buttons to copy the generated Tailwind CSS, CSS, and RGB codes to the clipboard.
 - Socials Section: On the footer of the site
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 417ed6432b162ca1cc6e9bfa7b043d045d99f178
 ## Tailwind Colors
 
 | Color Name | Hex | RGB |
