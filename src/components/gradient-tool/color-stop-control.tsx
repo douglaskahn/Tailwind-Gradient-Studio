@@ -8,12 +8,6 @@ import { hslToHex, hslToRgb } from '@/lib/utils';
 import type { ColorStop, HSLColor } from '@/lib/types';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import TailwindColorPalette from './tailwind-color-palette';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { cn } from '@/lib/utils';
 
 
@@ -47,14 +41,14 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
   const isWhite = colorStop.color.l === 100;
   const isAchromatic = isBlack || isWhite;
 
-  const SliderWithTooltip = ({
+  const SliderWithPopover = ({
     value,
     onValueChange,
     min,
     max,
     step,
     disabled,
-    tooltipContent,
+    popoverContent,
   }: {
     value: number[];
     onValueChange: (value: number[]) => void;
@@ -62,41 +56,33 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
     max: number;
     step: number;
     disabled: boolean;
-    tooltipContent: React.ReactNode;
+    popoverContent: React.ReactNode;
   }) => {
+    const slider = (
+      <Slider
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onValueChange={onValueChange}
+        disabled={disabled}
+      />
+    );
+
     if (!disabled) {
-      return (
-        <Slider
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onValueChange={onValueChange}
-          disabled={disabled}
-        />
-      );
+      return slider;
     }
   
     return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div>
-              <Slider
-                min={min}
-                max={max}
-                step={step}
-                value={value}
-                onValueChange={onValueChange}
-                disabled={disabled}
-              />
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{tooltipContent}</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Popover>
+        <PopoverTrigger asChild>
+          {/* The div is necessary to be a valid trigger child when slider is disabled */}
+          <div>{slider}</div>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto text-sm">
+          <p>{popoverContent}</p>
+        </PopoverContent>
+      </Popover>
     );
   };
 
@@ -161,14 +147,14 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           <Label>Hue</Label>
           <span className="text-muted-foreground">{colorStop.color.h}</span>
         </div>
-        <SliderWithTooltip
+        <SliderWithPopover
           min={0}
           max={360}
           step={1}
           value={[colorStop.color.h]}
           onValueChange={value => handleColorChange({ h: value[0] })}
           disabled={isAchromatic}
-          tooltipContent={`While Lightness is ${colorStop.color.l}%, Hue has no effect.`}
+          popoverContent={`While Lightness is ${colorStop.color.l}%, Hue has no effect.`}
         />
       </div>
       <div className="space-y-2">
@@ -176,14 +162,14 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           <Label>Saturation</Label>
           <span className="text-muted-foreground">{colorStop.color.s}%</span>
         </div>
-        <SliderWithTooltip
+        <SliderWithPopover
           min={0}
           max={100}
           step={1}
           value={[colorStop.color.s]}
           onValueChange={value => handleColorChange({ s: value[0] })}
           disabled={isAchromatic}
-          tooltipContent={`While Lightness is ${colorStop.color.l}%, Saturation has no effect.`}
+          popoverContent={`While Lightness is ${colorStop.color.l}%, Saturation has no effect.`}
         />
       </div>
       <div className="space-y-2">
