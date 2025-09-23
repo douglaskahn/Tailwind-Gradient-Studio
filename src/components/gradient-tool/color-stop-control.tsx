@@ -43,9 +43,63 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
   const hexValue = hslToHex(colorStop.color.h, colorStop.color.s, colorStop.color.l);
   const rgbValue = hslToRgb(colorStop.color.h, colorStop.color.s, colorStop.color.l);
 
-  const isBlack = colorStop.tailwindName === 'black';
-  const isWhite = colorStop.tailwindName === 'white';
-  const isPaletteColor = !isBlack && !isWhite;
+  const isBlack = colorStop.color.l === 0;
+  const isWhite = colorStop.color.l === 100;
+  const isAchromatic = isBlack || isWhite;
+
+  const SliderWithTooltip = ({
+    value,
+    onValueChange,
+    min,
+    max,
+    step,
+    disabled,
+    tooltipContent,
+  }: {
+    value: number[];
+    onValueChange: (value: number[]) => void;
+    min: number;
+    max: number;
+    step: number;
+    disabled: boolean;
+    tooltipContent: React.ReactNode;
+  }) => {
+    if (!disabled) {
+      return (
+        <Slider
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onValueChange={onValueChange}
+          disabled={disabled}
+        />
+      );
+    }
+  
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <Slider
+                min={min}
+                max={max}
+                step={step}
+                value={value}
+                onValueChange={onValueChange}
+                disabled={disabled}
+              />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{tooltipContent}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  };
+
 
   return (
     <div className="dark-theme-glass-inner p-2 space-y-2">
@@ -57,7 +111,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
                     <button
                         className={cn(
                           "w-10 h-10 rounded-md border-2 border-white/50 shadow-inner focus:outline-none",
-                          isPaletteColor && "ring-2 ring-ring"
+                           colorStop.tailwindName && !['black', 'white'].includes(colorStop.tailwindName) && "ring-2 ring-ring"
                         )}
                         style={{ backgroundColor: hexValue }}
                         aria-label="Open Tailwind Palette"
@@ -75,7 +129,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
               <button
                 className={cn(
                   "w-6 h-6 rounded-sm border-2 bg-white shadow-inner",
-                  isWhite && "ring-2 ring-ring"
+                  colorStop.tailwindName === 'white' && "ring-2 ring-ring"
                 )}
                 onClick={() => handlePaletteSelect({ h: 0, s: 0, l: 100 }, 'white')}
                 aria-label="Select white"
@@ -83,7 +137,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
               <button
                 className={cn(
                   "w-6 h-6 rounded-sm border-2 bg-black shadow-inner",
-                  isBlack && "ring-2 ring-ring"
+                  colorStop.tailwindName === 'black' && "ring-2 ring-ring"
                 )}
                 onClick={() => handlePaletteSelect({ h: 0, s: 0, l: 0 }, 'black')}
                 aria-label="Select black"
@@ -107,13 +161,14 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           <Label>Hue</Label>
           <span className="text-muted-foreground">{colorStop.color.h}</span>
         </div>
-        <Slider
+        <SliderWithTooltip
           min={0}
           max={360}
           step={1}
           value={[colorStop.color.h]}
           onValueChange={value => handleColorChange({ h: value[0] })}
-          disabled={isBlack || isWhite}
+          disabled={isAchromatic}
+          tooltipContent={`While Lightness is ${colorStop.color.l}%, Hue has no effect.`}
         />
       </div>
       <div className="space-y-2">
@@ -121,13 +176,14 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           <Label>Saturation</Label>
           <span className="text-muted-foreground">{colorStop.color.s}%</span>
         </div>
-        <Slider
+        <SliderWithTooltip
           min={0}
           max={100}
           step={1}
           value={[colorStop.color.s]}
           onValueChange={value => handleColorChange({ s: value[0] })}
-          disabled={isBlack || isWhite}
+          disabled={isAchromatic}
+          tooltipContent={`While Lightness is ${colorStop.color.l}%, Saturation has no effect.`}
         />
       </div>
       <div className="space-y-2">
@@ -141,7 +197,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           step={1}
           value={[colorStop.color.l]}
           onValueChange={value => handleColorChange({ l: value[0] })}
-          disabled={isBlack || isWhite}
+          disabled={false}
         />
       </div>
        <div className="space-y-2">
