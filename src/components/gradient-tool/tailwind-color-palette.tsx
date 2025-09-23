@@ -1,4 +1,3 @@
-
 import { tailwindColors } from '@/lib/colors';
 import type { HSLColor } from '@/lib/types';
 import {
@@ -9,7 +8,6 @@ import {
 } from "@/components/ui/tooltip"
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ScrollArea } from '../ui/scroll-area';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 type TailwindColorPaletteProps = {
@@ -27,7 +25,7 @@ export default function TailwindColorPalette({ onColorSelect, selectedColorName,
           Selected: <span className="font-mono p-1 bg-muted rounded-sm">{selectedPaletteName}</span>
         </div>
       )}
-      <ScrollArea className="w-full">
+      <div className="overflow-x-auto">
         <TooltipProvider delayDuration={0}>
           <div className="grid grid-cols-22 gap-1 w-max p-1">
             {tailwindColors.map((color) => (
@@ -54,7 +52,7 @@ export default function TailwindColorPalette({ onColorSelect, selectedColorName,
             ))}
           </div>
         </TooltipProvider>
-      </ScrollArea>
+      </div>
     </div>
   );
 }
