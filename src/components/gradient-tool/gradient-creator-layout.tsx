@@ -1,7 +1,8 @@
 
 "use client";
 
-import type { Dispatch, SetStateAction, ComponentType } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHasMounted } from '@/hooks/use-has-mounted';
 import type { PrimaryGradient, OverlayGradient } from '@/lib/types';
@@ -15,6 +16,8 @@ import CodeOutput from './code-output';
 import { ScrollArea } from '../ui/scroll-area';
 import Header from '../layout/header';
 import Footer from '../layout/footer';
+import { cn } from '@/lib/utils';
+
 
 type GradientCreatorLayoutProps = {
     primaryGradient: PrimaryGradient;
@@ -31,6 +34,20 @@ export default function GradientCreatorLayout({
 }: GradientCreatorLayoutProps) {
   const hasMounted = useHasMounted();
   const isMobile = useIsMobile();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMobile]);
 
   if (!hasMounted) {
     return (
@@ -48,8 +65,11 @@ export default function GradientCreatorLayout({
       <div className="flex flex-col min-h-screen">
         <Header />
         <main className="flex-grow p-4 space-y-8">
-            <div className="relative w-full h-[40vh]">
-                <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} />
+            <div className={cn(
+              "relative w-full transition-all duration-300",
+              isScrolled ? "h-[175px] sticky top-0 z-20" : "h-[40vh]"
+            )}>
+                <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg shadow-lg"/>
             </div>
             <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
             <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
@@ -87,20 +107,21 @@ export default function GradientCreatorLayout({
                   </Dialog>
               </div>
           </div>
-          {/* Add more content here to test scrolling */}
-          <div className="h-[1000px]"></div>
+          <div className="h-[1000px]"><!-- This is just for testing scroll on desktop --></div>
           <Footer />
         </div>
       </div>
       
       <div className="sticky top-0 h-screen">
-        <ScrollArea className="dark-theme-glass h-full rounded-lg m-2">
-            <div className="space-y-8 p-3.5">
-                <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
-                <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
-                <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
-            </div>
-        </ScrollArea>
+        <div className='h-full p-2'>
+            <ScrollArea className="dark-theme-glass h-full rounded-lg">
+                <div className="space-y-8 p-3.5">
+                    <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
+                    <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
+                    <CodeOutput primaryGradient={primaryGradient} overlayGradient={overlayGradient} />
+                </div>
+            </ScrollArea>
+        </div>
       </div>
     </div>
   );
