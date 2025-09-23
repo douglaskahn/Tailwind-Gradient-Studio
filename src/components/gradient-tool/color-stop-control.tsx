@@ -24,8 +24,11 @@ type ColorStopControlProps = {
 };
 
 export default function ColorStopControl({ label, colorStop, onChange }: ColorStopControlProps) {
+  const [selectedPaletteName, setSelectedPaletteName] = React.useState<string | undefined>(colorStop.tailwindName);
+
   const handleColorChange = (newColor: Partial<HSLColor>) => {
     onChange({ color: { ...colorStop.color, ...newColor }, tailwindName: undefined });
+    setSelectedPaletteName(undefined);
   };
   
   const handlePositionChange = (value: number[]) => {
@@ -34,6 +37,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
 
   const handlePaletteSelect = (color: HSLColor, name: string) => {
     onChange({ color, tailwindName: name });
+    setSelectedPaletteName(name);
   };
 
   const hexValue = hslToHex(colorStop.color.h, colorStop.color.s, colorStop.color.l);
@@ -59,8 +63,12 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
                         aria-label="Open Tailwind Palette"
                       />
                   </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                    <TailwindColorPalette onColorSelect={handlePaletteSelect} selectedColorName={colorStop.tailwindName} />
+                <PopoverContent className="w-auto p-0 max-w-[calc(100vw-5rem)]">
+                    <TailwindColorPalette 
+                      onColorSelect={handlePaletteSelect} 
+                      selectedColorName={colorStop.tailwindName}
+                      selectedPaletteName={selectedPaletteName}
+                    />
                 </PopoverContent>
               </Popover>
 
