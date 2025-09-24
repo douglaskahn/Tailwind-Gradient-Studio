@@ -43,7 +43,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
 
   return (
     <div className="dark-theme-glass-inner p-2 space-y-2">
-      <div className='flex items-center justify-between gap-4'>
+      <div className='flex items-center justify-between gap-2'>
           <div className='flex items-center gap-2'>
             <div className="flex items-center gap-2">
               <Popover>
@@ -94,7 +94,12 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           </div>
       </div>
       
-      {colorStop.tailwindName && <div className='text-sm text-muted-foreground font-medium pt-2'>Tailwind Color: <span className='font-mono p-1 bg-muted rounded-sm'>{colorStop.tailwindName}</span></div>}
+      <div className='text-sm text-muted-foreground font-medium pt-2 h-[34px]'>
+        Tailwind Color:{' '}
+        <span className='font-mono p-1 bg-muted rounded-sm'>
+          {colorStop.tailwindName || 'n/a'}
+        </span>
+      </div>
 
       <div className="space-y-2">
         <div className="flex justify-between items-center text-sm">
@@ -134,8 +139,8 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           max={100}
           step={1}
           value={[colorStop.color.l]}
-          onValueChange={value => handleColorChange({ l: value[0] })}
-          disabled={false}
+          onValueähänValueChange={value => handleColorChange({ l: value[0] })}
+          disabled={isBlack}
         />
       </div>
        <div className="space-y-2">
