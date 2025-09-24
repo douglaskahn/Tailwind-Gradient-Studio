@@ -58,30 +58,25 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
     disabled: boolean;
     popoverContent: React.ReactNode;
   }) => {
-    const slider = (
-      <Slider
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onValueChange={onValueChange}
-        disabled={disabled}
-      />
-    );
-
-    if (!disabled) {
-      return slider;
-    }
-  
     return (
       <Popover>
-        <PopoverTrigger asChild>
-          {/* The div is necessary to be a valid trigger child when slider is disabled */}
-          <div>{slider}</div>
+        <PopoverTrigger asChild disabled={!disabled}>
+          <div>
+            <Slider
+              min={min}
+              max={max}
+              step={step}
+              value={value}
+              onValueChange={onValueChange}
+              disabled={disabled}
+            />
+          </div>
         </PopoverTrigger>
-        <PopoverContent className="w-auto text-sm">
-          <p>{popoverContent}</p>
-        </PopoverContent>
+        {disabled && (
+          <PopoverContent className="w-auto text-sm">
+            <p>{popoverContent}</p>
+          </PopoverContent>
+        )}
       </Popover>
     );
   };
