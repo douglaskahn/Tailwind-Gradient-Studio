@@ -27,7 +27,7 @@ const SliderWithPopover = ({ disabled, ...props }: React.ComponentProps<typeof S
             <Slider disabled {...props} />
           </div>
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent className="p-2 text-sm">
           <p>Hue and Saturation have no effect on pure black or white.</p>
         </PopoverContent>
       </Popover>
@@ -124,7 +124,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           </div>
       </div>
       
-      <div className='text-sm text-muted-foreground font-medium pt-2 h-[34px]'>
+      <div className="text-sm text-muted-foreground font-medium pt-2 h-[34px]">
         Tailwind Color:{' '}
         <span className='font-mono p-1 bg-muted rounded-sm'>
           {colorStop.tailwindName || 'n/a'}
