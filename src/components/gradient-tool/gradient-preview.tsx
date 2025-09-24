@@ -11,7 +11,7 @@ type GradientPreviewProps = {
   className?: string;
 };
 
-export default function GradientPreview({ primaryGradient, overlayGradient, isModal = false, className }: GradientPreviewProps) {
+const GradientPreview = React.forwardRef<HTMLDivElement, GradientPreviewProps>(({ primaryGradient, overlayGradient, isModal = false, className }, ref) => {
   const primaryStops = primaryGradient.colorStops
     .map(s => `${hslToHex(s.color.h, s.color.s, s.color.l)} ${s.position}%`)
     .join(', ');
@@ -24,7 +24,9 @@ export default function GradientPreview({ primaryGradient, overlayGradient, isMo
   const overlayCss = `linear-gradient(${overlayGradient.angle}deg, ${overlayStops})`;
 
   return (
-    <div className={cn(
+    <div 
+        ref={ref}
+        className={cn(
         "relative w-full h-full",
         isModal ? "h-[80vh] rounded-lg" : "absolute inset-0",
         className
@@ -45,4 +47,8 @@ export default function GradientPreview({ primaryGradient, overlayGradient, isMo
       />
     </div>
   );
-}
+});
+
+GradientPreview.displayName = 'GradientPreview';
+
+export default GradientPreview;

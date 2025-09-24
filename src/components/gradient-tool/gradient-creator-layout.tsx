@@ -2,12 +2,12 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useHasMounted } from '@/hooks/use-has-mounted';
 import type { PrimaryGradient, OverlayGradient } from '@/lib/types';
 import { Button } from '@/components/ui/button';
-import { Eye } from 'lucide-react';
+import { Eye, Download } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import GradientPreview from './gradient-preview';
 import PrimaryGradientDesigner from './primary-gradient-designer';
@@ -17,6 +17,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import Header from '../layout/header';
 import Footer from '../layout/footer';
 import { cn } from '@/lib/utils';
+import html2canvas from 'html2canvas';
 
 
 type GradientCreatorLayoutProps = {
@@ -35,6 +36,21 @@ export default function GradientCreatorLayout({
   const hasMounted = useHasMounted();
   const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = () => {
+    if (previewRef.current) {
+      html2canvas(previewRef.current, {
+        useCORS: true,
+        backgroundColor: null, 
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'gradient.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  };
 
   useEffect(() => {
     if (!isMobile) return;
@@ -69,7 +85,7 @@ export default function GradientCreatorLayout({
               "relative w-full transition-all duration-300",
               isScrolled ? "h-[175px] sticky top-0 z-20" : "h-[40vh]"
             )}>
-                <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg shadow-lg"/>
+                <GradientPreview ref={previewRef} primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg shadow-lg"/>
             </div>
             <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
             <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
@@ -87,7 +103,7 @@ export default function GradientCreatorLayout({
         <div className="px-8">
           <Header />
           <div className="sticky top-0 z-10 h-[500px] pt-6">
-              <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
+              <GradientPreview ref={previewRef} primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
               <div className="absolute top-10 right-4 z-20 flex gap-2">
                   <Dialog>
                   <DialogTrigger asChild>
@@ -105,6 +121,9 @@ export default function GradientCreatorLayout({
                       <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal />
                   </DialogContent>
                   </Dialog>
+                  <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 text-white hover:text-white" onClick={handleDownload}>
+                      <Download className="h-5 w-5" />
+                  </Button>
               </div>
           </div>
           <div className="h-[1000px]">{/* This is just for testing scroll on desktop */}</div>
