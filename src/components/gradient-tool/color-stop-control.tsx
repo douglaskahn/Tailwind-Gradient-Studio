@@ -41,51 +41,10 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
   const isWhite = colorStop.color.l === 100;
   const isAchromatic = isBlack || isWhite;
 
-  const SliderWithPopover = ({
-    value,
-    onValueChange,
-    min,
-    max,
-    step,
-    disabled,
-    popoverContent,
-  }: {
-    value: number[];
-    onValueChange: (value: number[]) => void;
-    min: number;
-    max: number;
-    step: number;
-    disabled: boolean;
-    popoverContent: React.ReactNode;
-  }) => {
-    return (
-      <Popover>
-        <PopoverTrigger asChild disabled={!disabled}>
-          <div>
-            <Slider
-              min={min}
-              max={max}
-              step={step}
-              value={value}
-              onValueChange={onValueChange}
-              disabled={disabled}
-            />
-          </div>
-        </PopoverTrigger>
-        {disabled && (
-          <PopoverContent className="w-auto text-sm">
-            <p>{popoverContent}</p>
-          </PopoverContent>
-        )}
-      </Popover>
-    );
-  };
-
-
   return (
     <div className="dark-theme-glass-inner p-2 space-y-2">
       <div className='flex items-center justify-between gap-4'>
-          <div className='flex items-center gap-4'>
+          <div className='flex items-center gap-2'>
             <div className="flex items-center gap-2">
               <Popover>
                   <PopoverTrigger asChild>
@@ -142,14 +101,13 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           <Label>Hue</Label>
           <span className="text-muted-foreground">{colorStop.color.h}</span>
         </div>
-        <SliderWithPopover
+        <Slider
           min={0}
           max={360}
           step={1}
           value={[colorStop.color.h]}
           onValueChange={value => handleColorChange({ h: value[0] })}
           disabled={isAchromatic}
-          popoverContent={`While Lightness is ${colorStop.color.l}%, Hue has no effect.`}
         />
       </div>
       <div className="space-y-2">
@@ -157,14 +115,13 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           <Label>Saturation</Label>
           <span className="text-muted-foreground">{colorStop.color.s}%</span>
         </div>
-        <SliderWithPopover
+        <Slider
           min={0}
           max={100}
           step={1}
           value={[colorStop.color.s]}
           onValueChange={value => handleColorChange({ s: value[0] })}
           disabled={isAchromatic}
-          popoverContent={`While Lightness is ${colorStop.color.l}%, Saturation has no effect.`}
         />
       </div>
       <div className="space-y-2">
