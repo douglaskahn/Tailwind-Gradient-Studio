@@ -139,7 +139,7 @@ export default function ColorStopControl({ label, colorStop, onChange }: ColorSt
           max={100}
           step={1}
           value={[colorStop.color.l]}
-          onValueähänValueChange={value => handleColorChange({ l: value[0] })}
+          onValueChange={value => handleColorChange({ l: value[0] })}
           disabled={isBlack}
         />
       </div>
