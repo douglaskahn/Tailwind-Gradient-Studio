@@ -42,6 +42,11 @@ export default function GradientCreatorLayout({
     const previewElement = previewRef.current;
     if (!previewElement) return;
 
+    // Use a utility function to ignore the buttons during capture
+    const ignoreButtons = (el: Element) => {
+        return el.hasAttribute('data-html2canvas-ignore');
+    };
+
     const primaryLayer = previewElement.querySelector('[data-layer="primary"]') as HTMLElement;
     const overlayLayer = previewElement.querySelector('[data-layer="overlay"]') as HTMLElement;
 
@@ -49,8 +54,16 @@ export default function GradientCreatorLayout({
 
     try {
       // 1. Capture primary and overlay layers as separate canvases
-      const primaryCanvas = await html2canvas(primaryLayer, { backgroundColor: null, useCORS: true });
-      const overlayCanvas = await html2canvas(overlayLayer, { backgroundColor: null, useCORS: true });
+      const primaryCanvas = await html2canvas(primaryLayer, { 
+          backgroundColor: null, 
+          useCORS: true,
+          ignoreElements: ignoreButtons,
+      });
+      const overlayCanvas = await html2canvas(overlayLayer, { 
+          backgroundColor: null, 
+          useCORS: true,
+          ignoreElements: ignoreButtons,
+       });
 
       // 2. Create a new canvas to merge them
       const finalCanvas = document.createElement('canvas');
@@ -110,9 +123,30 @@ export default function GradientCreatorLayout({
         <main className="flex-grow p-4 space-y-8">
             <div className={cn(
               "relative w-full transition-all duration-300",
-              isScrolled ? "h-[175px] sticky top-0 z-20" : "h-[40vh]"
+              isScrolled ? "h-[175px] sticky top-4 z-20" : "h-[40vh]"
             )}>
                 <GradientPreview ref={previewRef} primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg shadow-lg"/>
+                <div className="absolute top-4 right-4 z-20 flex gap-2" data-html2canvas-ignore>
+                    <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 text-white hover:text-white h-8 w-8">
+                        <Eye className="h-4 w-4" />
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="p-0 border-0 max-w-7xl">
+                        <DialogHeader>
+                        <DialogTitle className="sr-only">Gradient Full-Screen Preview</DialogTitle>
+                        <DialogDescription className="sr-only">
+                            A full-screen preview of the generated gradient.
+                        </DialogDescription>
+                        </DialogHeader>
+                        <GradientPreview primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal />
+                    </DialogContent>
+                    </Dialog>
+                    <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 text-white hover:text-white h-8 w-8" onClick={handleDownload}>
+                        <Download className="h-4 w-4" />
+                    </Button>
+                </div>
             </div>
             <PrimaryGradientDesigner gradient={primaryGradient} setGradient={setPrimaryGradient} />
             <OverlayGradientDesigner gradient={overlayGradient} setGradient={setOverlayGradient} />
