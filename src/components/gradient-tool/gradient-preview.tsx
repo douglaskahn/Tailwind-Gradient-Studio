@@ -29,17 +29,27 @@ const GradientPreview = React.forwardRef<HTMLDivElement, GradientPreviewProps>((
 
   return (
     <div 
-        ref={ref}
-        className={cn(
-        "relative w-full h-full",
+      ref={ref}
+      className={cn(
+        "relative w-full h-full overflow-hidden",
         isModal ? "h-[80vh] rounded-lg" : "absolute inset-0",
         className
-    )}
-    style={{
-        backgroundImage: `${overlayCss}, ${primaryCss}`,
-        backgroundBlendMode: `${overlayGradient.blendMode}, normal`,
-    }}
-    />
+      )}
+    >
+      <div
+        data-layer="primary"
+        className="absolute inset-0"
+        style={{ backgroundImage: primaryCss }}
+      />
+      <div
+        data-layer="overlay"
+        className="absolute inset-0"
+        style={{
+          backgroundImage: overlayCss,
+          mixBlendMode: overlayGradient.blendMode,
+        }}
+      />
+    </div>
   );
 });
 

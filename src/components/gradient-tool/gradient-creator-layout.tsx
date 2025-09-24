@@ -37,22 +37,47 @@ export default function GradientCreatorLayout({
   const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
+  
+  const handleDownload = async () => {
+    const previewElement = previewRef.current;
+    if (!previewElement) return;
 
-  const handleDownload = () => {
-    if (previewRef.current) {
-      html2canvas(previewRef.current, {
-        useCORS: true,
-        backgroundColor: null,
-        // Ignore the buttons so they don't show up in the downloaded image
-        ignoreElements: (element) => element.hasAttribute('data-html2canvas-ignore'),
-      }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'gradient.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
+    const primaryLayer = previewElement.querySelector('[data-layer="primary"]') as HTMLElement;
+    const overlayLayer = previewElement.querySelector('[data-layer="overlay"]') as HTMLElement;
+
+    if (!primaryLayer || !overlayLayer) return;
+
+    try {
+      // 1. Capture primary and overlay layers as separate canvases
+      const primaryCanvas = await html2canvas(primaryLayer, { backgroundColor: null, useCORS: true });
+      const overlayCanvas = await html2canvas(overlayLayer, { backgroundColor: null, useCORS: true });
+
+      // 2. Create a new canvas to merge them
+      const finalCanvas = document.createElement('canvas');
+      finalCanvas.width = primaryCanvas.width;
+      finalCanvas.height = primaryCanvas.height;
+      const ctx = finalCanvas.getContext('2d');
+
+      if (!ctx) return;
+
+      // 3. Draw the primary layer
+      ctx.drawImage(primaryCanvas, 0, 0);
+
+      // 4. Set the blend mode and draw the overlay layer
+      ctx.globalCompositeOperation = overlayGradient.blendMode as GlobalCompositeOperation;
+      ctx.drawImage(overlayCanvas, 0, 0);
+      
+      // 5. Trigger the download
+      const link = document.createElement('a');
+      link.download = 'gradient.png';
+      link.href = finalCanvas.toDataURL('image/png');
+      link.click();
+
+    } catch (error) {
+      console.error('Error generating gradient image:', error);
     }
   };
+
 
   useEffect(() => {
     if (!isMobile) return;
