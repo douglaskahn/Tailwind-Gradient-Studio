@@ -17,7 +17,11 @@ const GradientPreview = React.forwardRef<HTMLDivElement, GradientPreviewProps>((
     .join(', ');
 
   const overlayStops = overlayGradient.colorStops
-    .map(s => `${hslToHex(s.color.h, s.color.s, s.color.l)} ${s.position}%`)
+    .map(s => {
+        const hex = hslToHex(s.color.h, s.color.s, s.color.l);
+        const alphaHex = Math.round(overlayGradient.opacity * 255).toString(16).padStart(2, '0');
+        return `${hex}${alphaHex} ${s.position}%`;
+    })
     .join(', ');
 
   const primaryCss = `linear-gradient(${primaryGradient.angle}deg, ${primaryStops})`;
@@ -30,22 +34,12 @@ const GradientPreview = React.forwardRef<HTMLDivElement, GradientPreviewProps>((
         "relative w-full h-full",
         isModal ? "h-[80vh] rounded-lg" : "absolute inset-0",
         className
-    )}>
-       <div
-        className="absolute inset-0 w-full h-full"
-        style={{
-          backgroundImage: primaryCss,
-        }}
-      />
-      <div
-        className="absolute inset-0 w-full h-full"
-        style={{
-          backgroundImage: overlayCss,
-          mixBlendMode: overlayGradient.blendMode as React.CSSProperties['mixBlendMode'],
-          opacity: overlayGradient.opacity,
-        }}
-      />
-    </div>
+    )}
+    style={{
+        backgroundImage: `${overlayCss}, ${primaryCss}`,
+        backgroundBlendMode: `${overlayGradient.blendMode}, normal`,
+    }}
+    />
   );
 });
 
