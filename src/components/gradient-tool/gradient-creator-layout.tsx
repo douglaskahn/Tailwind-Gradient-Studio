@@ -42,7 +42,9 @@ export default function GradientCreatorLayout({
     if (previewRef.current) {
       html2canvas(previewRef.current, {
         useCORS: true,
-        backgroundColor: null, 
+        backgroundColor: null,
+        // Ignore the buttons so they don't show up in the downloaded image
+        ignoreElements: (element) => element.hasAttribute('data-html2canvas-ignore'),
       }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'gradient.png';
@@ -104,7 +106,7 @@ export default function GradientCreatorLayout({
           <Header />
           <div className="sticky top-0 z-10 h-[500px] pt-6">
               <GradientPreview ref={previewRef} primaryGradient={primaryGradient} overlayGradient={overlayGradient} isModal={false} className="rounded-lg" />
-              <div className="absolute top-10 right-4 z-20 flex gap-2">
+              <div className="absolute top-10 right-4 z-20 flex gap-2" data-html2canvas-ignore>
                   <Dialog>
                   <DialogTrigger asChild>
                       <Button variant="ghost" size="icon" className="bg-black/20 hover:bg-black/40 text-white hover:text-white">
