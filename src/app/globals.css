@@ -16,29 +16,6 @@
 }
 
 @layer base {
-  :root {
-    --background: 180 100% 97%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 180 100% 97%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 180 100% 97%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 180 100% 25%;
-    --primary-foreground: 180 100% 97%;
-    --secondary: 220 13% 91%;
-    --secondary-foreground: 220 14.3% 9.1%;
-    --muted: 220 13% 91%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 35 100% 63%;
-    --accent-foreground: 24 9.8% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 207 100% 81%;
-    --radius: 0.5rem;
-  }
-
   .dark {
     --bg-base-h: 224;
     --bg-base-s: 71.4%;
@@ -73,6 +50,7 @@
     --border: 215 51% 84.74% / 0.57;
     --input: 215 27.9% 16.9%;
     --ring: 207 100% 81%;
+    --radius: 0.5rem;
 
     --bg-gradient-start: hsla(var(--bg-gradient-start-h), var(--bg-gradient-start-s), var(--bg-gradient-start-l), var(--bg-gradient-start-a));
     --bg-gradient-end: hsla(var(--bg-gradient-end-h), var(--bg-gradient-end-s), var(--bg-gradient-end-l), var(--bg-gradient-end-a));
@@ -96,7 +74,7 @@
 
 @layer components {
   .text-primary {
-    color: hsl(224 44% 87%);
+    color: hsl(208 61% 71% / 1);
   }
   .dark .dark-theme-glass-inner {
       background-color: #1681ff17;
