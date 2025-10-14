@@ -7,21 +7,21 @@ import GradientCreatorLayout from './gradient-creator-layout';
 
 export default function GradientCreator() {
   const [primaryGradient, setPrimaryGradient] = useState<PrimaryGradient>({
-    angle: 90,
+    angle: 61,
     colorStops: [
-      { id: 1, color: { h: 195, s: 91, l: 65 }, position: 0, tailwindName: 'sky-400' },
-      { id: 2, color: { h: 217, s: 91, l: 65 }, position: 50, tailwindName: 'blue-500' },
-      { id: 3, color: { h: 262, s: 91, l: 65 }, position: 100, tailwindName: 'violet-500' },
+      { id: 1, color: { h: 224, s: 83, l: 5 }, position: 0, tailwindName: 'slate-950' },
+      { id: 2, color: { h: 280, s: 84, l: 21 }, position: 50, tailwindName: 'purple-950' },
+      { id: 3, color: { h: 301, s: 62, l: 28 }, position: 100, tailwindName: 'fuchsia-900' },
     ],
   });
 
   const [overlayGradient, setOverlayGradient] = useState<OverlayGradient>({
-    angle: 90,
+    angle: 188,
     blendMode: 'overlay',
-    opacity: 0.5,
+    opacity: 1,
     colorStops: [
-      { id: 1, color: { h: 35, s: 100, l: 63 }, position: 0, tailwindName: 'amber-400' },
-      { id: 2, color: { h: 0, s: 0, l: 100 }, position: 100, tailwindName: 'white' },
+      { id: 1, color: { h: 297, s: 70, l: 49 }, position: 0, tailwindName: 'fuchsia-600' },
+      { id: 2, color: { h: 204, s: 96, l: 32 }, position: 100, tailwindName: 'sky-700' },
     ],
   });
 
