@@ -23,46 +23,26 @@ type GeneratedCode = {
 };
 
 const generateTailwindCss = (primaryGradient: PrimaryGradient, overlayGradient: OverlayGradient): string => {
-  const hasCustomColor = [...primaryGradient.colorStops, ...overlayGradient.colorStops].some(cs => !cs.tailwindName);
-  
-  if (hasCustomColor) {
-    const primaryStops = primaryGradient.colorStops
-      .map(s => `${hslToHex(s.color.h, s.color.s, s.color.l)} ${s.position}%`)
-      .join(', ');
+  const primaryStops = primaryGradient.colorStops
+    .map(s => {
+      const color = s.tailwindName ? `theme(colors.${s.tailwindName.replace('-', '.')})` : hslToHex(s.color.h, s.color.s, s.color.l);
+      return `${color} ${s.position}%`;
+    })
+    .join(', ');
 
-    const overlayStops = overlayGradient.colorStops
-      .map(s => {
-        const { r, g, b } = hslToRgb(s.color.h, s.color.s, s.color.l);
-        return `rgba(${r},${g},${b},${overlayGradient.opacity}) ${s.position}%`;
-      })
-      .join(', ');
-      
-    const primaryGradientCss = `linear-gradient(${primaryGradient.angle}deg, ${primaryStops})`;
-    const overlayGradientCss = `linear-gradient(${overlayGradient.angle}deg, ${overlayStops})`;
+  const overlayStops = overlayGradient.colorStops
+    .map(s => {
+      const { r, g, b } = hslToRgb(s.color.h, s.color.s, s.color.l);
+      return `rgba(${r},${g},${b},${overlayGradient.opacity}) ${s.position}%`;
+    })
+    .join(', ');
+    
+  const primaryGradientCss = `linear-gradient(${primaryGradient.angle}deg, ${primaryStops})`;
+  const overlayGradientCss = `linear-gradient(${overlayGradient.angle}deg, ${overlayStops})`;
 
-    return `bg-[image:var(--tw-gradient-stops)] bg-[${primaryGradientCss},${overlayGradientCss}] bg-blend-${overlayGradient.blendMode}`;
-  }
-
-  const fromStop = primaryGradient.colorStops[0];
-  const toStop = primaryGradient.colorStops[primaryGradient.colorStops.length - 1];
-  const viaStops = primaryGradient.colorStops.slice(1, -1);
-
-  const primaryClasses = `from-${fromStop.tailwindName} ${viaStops.map(s => `via-${s.tailwindName}`).join(' ')} to-${toStop.tailwindName}`;
-
-   const overlayStopsArbitrary = overlayGradient.colorStops
-      .map(s => {
-        if (s.tailwindName) {
-           return `${s.tailwindName}/${overlayGradient.opacity * 100} ${s.position}%`;
-        }
-        const { r, g, b } = hslToRgb(s.color.h, s.color.s, s.color.l);
-        return `rgba(${r},${g},${b},${overlayGradient.opacity}) ${s.position}%`;
-      })
-      .join(', ');
-
-  const arbitraryOverlay = `[background-image:linear-gradient(${overlayGradient.angle}deg,${overlayStopsArbitrary})]`;
-
-  return `bg-gradient-to-r ${primaryClasses} ${arbitraryOverlay} bg-blend-${overlayGradient.blendMode}`;
+  return `bg-[${primaryGradientCss},${overlayGradientCss}] bg-blend-${overlayGradient.blendMode}`;
 };
+
 
 const generateStandardCss = (primaryGradient: PrimaryGradient, overlayGradient: OverlayGradient, format: 'hex' | 'rgb' | 'hsl'): string => {
   const toColorString = (h: number, s: number, l: number, a: number) => {
