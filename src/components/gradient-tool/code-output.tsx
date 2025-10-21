@@ -32,8 +32,10 @@ const generateTailwindCss = (primaryGradient: PrimaryGradient, overlayGradient: 
 
   const overlayStops = overlayGradient.colorStops
     .map(s => {
-      const { r, g, b } = hslToRgb(s.color.h, s.color.s, s.color.l);
-      return `rgba(${r},${g},${b},${overlayGradient.opacity}) ${s.position}%`;
+      const color = s.tailwindName
+        ? `theme(colors.${s.tailwindName.replace('-', '.')} / ${overlayGradient.opacity})`
+        : `rgba(${hslToRgb(s.color.h, s.color.s, s.color.l).r}, ${hslToRgb(s.color.h, s.color.s, s.color.l).g}, ${hslToRgb(s.color.h, s.color.s, s.color.l).b}, ${overlayGradient.opacity})`;
+      return `${color} ${s.position}%`;
     })
     .join(', ');
     
