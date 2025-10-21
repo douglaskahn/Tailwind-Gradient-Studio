@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Inter, Roboto_Flex } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import Script from 'next/script';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({
   subsets: ['latin'],
@@ -46,6 +47,7 @@ export default function RootLayout({
       <body suppressHydrationWarning className={cn("font-body antialiased", inter.variable, robotoFlex.variable)}>
         {children}
         <Toaster />
+        <SpeedInsights />
       </body>
     </html>
   );
