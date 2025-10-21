@@ -18,8 +18,9 @@ const robotoFlex = Roboto_Flex({
 });
 
 export const metadata: Metadata = {
-  title: 'Tailwind Gradient Studio',
-  description: 'Create and export beautiful, production-ready gradients for your Tailwind CSS projects.',
+  title: 'Tailwind Gradient Studio | Creator & Generator',
+  description: 'A Tailwind CSS gradient creator and generator. Craft and export beautiful, production-ready gradient backgrounds and colors for your Tailwind CSS projects.',
+  keywords: ['Tailwind CSS', 'Gradient Generator', 'Gradient Creator', 'CSS Gradient', 'Tailwind Gradient', 'Gradient Background', 'Tailwind Gradient Colors'],
 };
 
 export default function RootLayout({
@@ -30,6 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <meta name="google-site-verification" content="39-ixcMBbjC7OCiXDfAJJdiXTBV-X63XnRifsmSH9LI" />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-6QF6W90VTR"></Script>
         <Script id="google-analytics">
           {`
